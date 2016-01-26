@@ -1,0 +1,127 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper]{geometry}
+\usepackage{MATH562}
+
+\begin{document}
+\noindent \textbf{\Large{Caleb Logemann \\
+MATH 562 Numerical Analysis II \\
+Homework 1
+}}
+
+\begin{enumerate}
+    \item % #1
+        Problem 1.1
+        Let $B$ be a $4 \times 4$ matrix to which the following operations are
+        applied in the given order.
+        \begin{enumerate}
+            \item[1.] double column 1
+            \item[2.] halve row 3
+            \item[3.] add row 3 to row 1
+            \item[4.] interchange columns 1 and 4
+            \item[5.] subtract row 2 from each other rows
+            \item[6.] replace column 4 by column 3
+            \item[7.] delete column 1
+        \end{enumerate}
+        The result can be written as a product of 8 matrices one of which is $B$.
+        \begin{enumerate}
+            \item[(a)]
+                What are the other 7 matrices and what order do they appear in
+                the matrix?
+
+                The matrix that doubles column 1 is
+                \begin{align*}
+                    C &=
+                    \begin{bmatrix}
+                        2 & 0 & 0 & 0 \\
+                        0 & 1 & 0 & 0 \\
+                        0 & 0 & 1 & 0 \\
+                        0 & 0 & 0 & 1
+                    \end{bmatrix}
+                    \intertext{when right multiplied.
+                        The following matrix halves row 3 when left multiplied.}
+                    D &=
+                    \begin{bmatrix}
+                        1 & 0 & 0 & 0 \\
+                        0 & 1 & 0 & 0 \\
+                        0 & 0 & .5 & 0 \\
+                        0 & 0 & 0 & 1
+                    \end{bmatrix}
+                    \intertext{The following matrix adds row 3 to the row 1 when left multiplied.}
+                    E &= 
+                    \begin{bmatrix}
+                        1 & 0 & 1 & 0 \\
+                        0 & 1 & 0 & 0 \\
+                        0 & 0 & 1 & 0 \\
+                        0 & 0 & 0 & 1
+                    \end{bmatrix}
+                    \intertext{The following matrix interchanges columns 1 and 4 when right multiplied.}
+                    F &=
+                    \begin{bmatrix}
+                        0 & 0 & 0 & 1 \\
+                        0 & 1 & 0 & 0 \\
+                        0 & 0 & 1 & 0 \\
+                        1 & 0 & 0 & 0
+                    \end{bmatrix}
+                    \intertext{The following matrix subtracts row 2 from every other row, when left multiplied.}
+                    G &=
+                    \begin{bmatrix}
+                        1 & -1 & 0 & 0 \\
+                        0 & 1 & 0 & 0 \\
+                        0 & -1 & 1 & 0 \\
+                        0 & -1 & 0 & 1
+                    \end{bmatrix}
+                    \intertext{The following matrix replaces column 4 with column 3 when right multiplied.}
+                    H &=
+                    \begin{bmatrix}
+                        1 & 0 & 0 & 0 \\
+                        0 & 1 & 0 & 0 \\
+                        0 & 0 & 1 & 1 \\
+                        0 & 0 & 0 & 0
+                    \end{bmatrix}
+                    \intertext{The following matrix deletes column 1 when right multiplied.}
+                    I &=
+                    \begin{bmatrix}
+                        0 & 0 & 0 \\
+                        1 & 0 & 0 \\
+                        0 & 1 & 0 \\
+                        0 & 0 & 1
+                    \end{bmatrix}
+                \end{align*}
+                The resulting matrix product is given by $GEDBCFHI$, where the
+                matrices are given above.
+
+            \item[(b)]
+                The result can also be written as a product $ABC$ what are $A$
+                and $C$?
+
+                In this case $A$ and $C$ are given by the product of the
+                matrices to the left and the right of $B$ in the part (a).
+                Therefore
+                \begin{align*}
+                    A &=
+                    \begin{bmatrix}
+                        1 & -1 & 0.5 & 0 \\
+                        0 &  1 & 0 & 0 \\
+                        0 & -1 & 0.5 & 0 \\
+                        0 & -1 & 0 & 1
+                    \end{bmatrix} \\
+                    C &=
+                    \begin{bmatrix}
+                        0 & 0 & 0 \\
+                        1 & 0 & 0 \\
+                        0 & 1 & 1 \\
+                        0 & 0 & 0
+                    \end{bmatrix}
+                \end{align*}
+
+        \end{enumerate}
+
+    \item % #2
+
+    \item % #3
+    \item % #4
+    \item % #5
+    \item % #6
+    \item % #7
+\end{enumerate}
+\end{document}
