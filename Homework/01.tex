@@ -118,10 +118,106 @@ Homework 1
 
     \item % #2
 
-    \item % #3
-    \item % #4
-    \item % #5
+    \item % #3 Problem 2.3 page 15
+        Let $A \in \CC^{m \times m}$ be Hermitian, that is $A = A^*$.
+        Suppose that $A\v{x} = \lambda\v{x}$, where $\v{x} \in \CC^{m \times m}$
+        and $\lambda \in \CC$, so $\v{x}$ is an eigenvector and $\lambda$ is an
+        eigenvalue.
+        \begin{enumerate}
+            \item[(a)]
+                Prove that $\lambda$ must be real.
+
+                \begin{proof}
+                    Consider $\v{x}^* A \v{x}$.
+                    \begin{align*}
+                        \p{\v{x}^* A} \v{x} &= \v{x}^* \p{A \v{x}} \\
+                        \p{A^* \v{x}}^* \v{x} &= \v{x}^* \p{A \v{x}} \\
+                        \p{\lambda \v{x}}^* \v{x} &= \v{x}^* \p{\lambda \v{x}} \\
+                        \overline{\lambda} \v{x}^* \v{x} &= \lambda \v{x}^*\v{x}  \\
+                        \overline{\lambda} &= \lambda
+                    \end{align*}
+                    Since $\overline{\lambda} = \lambda$, $\lambda$ must be real. 
+                \end{proof}
+
+            \item[(b)]
+                Prove that if $\v{x}$ and $\v{y}$ are eigenvectors
+                corresponding to different eigenvalues, then $\v{x}$ and
+                $\v{y}$ are orthogonal.
+
+                \begin{proof}
+                    Let $\lambda_x$ and $\lambda_y$ be the eigenvalues corresponding
+                    to $\v{x}$ and $\v{y}$ respectively, that is
+                    $A\v{x} = \lambda_x\v{x}$, $A\v{y} = \lambda_y\v{y}$, and
+                    $\lambda_x \neq \lambda_y$.
+                    Since $A$ is Hermitian, we have just shown that
+                    $\lambda_x, \lambda_y \in \RR$.
+                    Also because $A$ is Hermitian
+                    \begin{align*}
+                        A &= A^* \\
+                        \v{x}^* A &= \v{x}^* A^* \\
+                        \v{x}^* A &= \p{A\v{x}}^*.
+                        \intertext{Since $\v{x}$ is an eigenvector}
+                        \v{x}^* A &= \p{\lambda_x \v{x}}^*
+                        \intertext{Since $\lambda_x \in \RR$}
+                        \v{x}^* A &= \lambda_x \v{x}^* \\
+                        \v{x}^* A \v{y} &= \lambda_x \v{x}^* \v{y} \\
+                        \v{x}^* \lambda_y \v{y} &= \lambda_x \v{x}^* \v{y} \\
+                        \p{\lambda_y - \lambda_x} \v{x}^* \v{y} &= 0
+                        \intertext{Since $\lambda_x \neq \lambda_y$, $\lambda_y - \lambda_x \neq 0$.}
+                        \v{x}^* \v{y} &= 0
+                    \end{align*}
+                    Therefore $\v{x}$ and $\v{y}$ are orthogonal.
+                \end{proof}
+
+        \end{enumerate}
+
+    \item % #4 Problem 2.6 page 16
+        If $\v{u}, \v{v} \in \RR^m$, then $A = I + \v{u}\v{v}^T$ is called a
+        rank one perturbation of the identity.
+        \begin{enumerate}
+            \item[(a)]
+                Show that is $A$ is invertible, then it's inverse has the form
+                $A^{-1} = I + \alpha \v{u}\v{v}^T$, and give an expression for
+                the scalar $\alpha$.
+
+
+
+            \item[(b)]
+                If $A$ is not invertible than $\v{v}^T \v{u} = -1$, otherwise
+                $I + \alpha \v{u}\v{v}^T$, where
+                $\alpha = -\frac{1}{1 + \v{v}^T\v{u}}$ would be an inverse.
+                In this case $\null{A}$
+        \end{enumerate}
+
+    \item % #5 Problem 3.2 page 24 Done
+        Let $\norm{\cdot}$ denote any norm on $\CC^m$ and also the corresponding
+        induced norm on $\CC^{m \times m}$, so that
+        $\norm{A\v{x}} \le \norm{A}\norm{\v{x}}$.
+        Show that $\rho(A) \le \norm{A}$, where
+        $\rho(A) = \max{\abs{\lambda}:\text{where $\lambda$ is an eigenvalue of $A$}}$
+        is the spectral radius of $A$.
+
+        \begin{proof}
+            Let $\v{x}$ be an eigenvector of $A$ with corresponding eigenvalue
+            $\lambda$, such that $\abs{\lambda} = \rho(A)$, that is $\v{x}$ is
+            the eigenvector corresponding to the eigenvalue whose magnitude is
+            the spectral radius.
+            Consider $\norm{A\v{x}}$
+            \begin{align*}
+                \norm{A\v{x}} &= \norm{\lambda \v{x}} \\
+                &= \abs{\lambda} \norm{\v{x}} \\
+                &= \rho(A) \norm{\v{x}}
+            \end{align*}
+            Also note that $\norm{A\v{x}} \le \norm{A}\norm{\v{x}}$, therefore
+            \begin{align*}
+                \rho(A) \norm{\v{x}} &\le \norm{A}\norm{\v{x}} \\
+                \rho(A) &\le \norm{A}
+            \end{align*}
+            Since $\norm{\v{x}} \neq 0$, because $\v{x}$ is an eigenvector.
+        \end{proof}
+
     \item % #6
+        Let $\theta \in \p{0, 2\pi}$ and 
     \item % #7
 \end{enumerate}
 \end{document}
