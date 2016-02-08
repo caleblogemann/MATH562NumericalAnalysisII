@@ -8,8 +8,9 @@ MATH 562 Numerical Analysis II \\
 Homework 1
 }}
 
+%\lstinputlisting[language=Matlab]{H01_23.m}
 \begin{enumerate}
-    \item % #1
+    \item % #1 Done
         Problem 1.1
         Let $B$ be a $4 \times 4$ matrix to which the following operations are
         applied in the given order.
@@ -118,7 +119,7 @@ Homework 1
 
     \item % #2
 
-    \item % #3 Problem 2.3 page 15
+    \item % #3 Problem 2.3 page 15 Done
         Let $A \in \CC^{m \times m}$ be Hermitian, that is $A = A^*$.
         Suppose that $A\v{x} = \lambda\v{x}$, where $\v{x} \in \CC^{m \times m}$
         and $\lambda \in \CC$, so $\v{x}$ is an eigenvector and $\lambda$ is an
@@ -168,25 +169,61 @@ Homework 1
                     \end{align*}
                     Therefore $\v{x}$ and $\v{y}$ are orthogonal.
                 \end{proof}
-
         \end{enumerate}
 
-    \item % #4 Problem 2.6 page 16
+    \item % #4 Problem 2.6 page 16 Done
         If $\v{u}, \v{v} \in \RR^m$, then $A = I + \v{u}\v{v}^T$ is called a
         rank one perturbation of the identity.
         \begin{enumerate}
             \item[(a)]
-                Show that is $A$ is invertible, then it's inverse has the form
+                Show that if $A$ is invertible, then it's inverse has the form
                 $A^{-1} = I + \alpha \v{u}\v{v}^T$, and give an expression for
                 the scalar $\alpha$.
 
-
+                First let us find an expression for $\alpha$.
+                \begin{align*}
+                    I &= AA^{-1} \\
+                      &= \p{I + \v{u}\v{v}^T}\p{I + \alpha \v{u}\v{v}^T} \\
+                      &= I + \alpha \v{u}\v{v}^T + \v{u}\v{v}^T + \alpha \v{u}\v{v}^T \v{u}\v{v}^T \\
+                      &= I + \p{\alpha + 1 + \alpha \v{v}^T\v{u}}\v{u}\v{v}^T
+                    \intertext{In order for this equality to be true}
+                    0 &= \alpha + 1 + \alpha \v{v}^T\v{u} \\
+                    \alpha &= -\frac{1}{1 + \v{v}^T\v{u}}
+                \end{align*}
+                \begin{proof}
+                    If $A$ is invertible then $A^{-1}$ exists and is unique.
+                    Consider the matrix $B = I + \alpha \v{u}\v{v}^T$, where
+                    $\alpha = -\frac{1}{1 + \v{v}^T\v{u}}$, then the following
+                    can be stated.
+                    \begin{align*}
+                        AB &= \p{I + \v{u}\v{v}^T}\p{I + \alpha \v{u}\v{v}^T} \\
+                        &= I + \alpha \v{u}\v{v}^T + \v{u}\v{v}^T + \alpha \v{u}\v{v}^T \v{u}\v{v}^T \\
+                        &= I + \p{\alpha + 1 + \alpha \v{v}^T\v{u}}\v{u}\v{v}^T \\
+                        &= I + \p{\p{1 + \v{v}^T\v{u}}\p{-\frac{1}{1 + \v{v}^T\v{u}}} + 1}\v{u}\v{v}^T \\
+                        &= I + \p{-1 + 1}\v{u}\v{v}^T \\
+                        &= I \\
+                    \end{align*}
+                    Similarly it can be shown that $BA = I$.
+                    Thus $B$ is an inverse of $A$, and since the inverse is
+                    unique $B = I + \alpha \v{u}\v{v}^T$ is the inverse of $A$.
+                    Therefore if $A$ is invertible it's inverse will be of the
+                    form $I + \alpha \v{u}\v{v}^T$.
+                \end{proof}
 
             \item[(b)]
                 If $A$ is not invertible than $\v{v}^T \v{u} = -1$, otherwise
                 $I + \alpha \v{u}\v{v}^T$, where
                 $\alpha = -\frac{1}{1 + \v{v}^T\v{u}}$ would be an inverse.
-                In this case $\null{A}$
+                In this case $\nullspace(A) = \spanspace\set{\v{u}}$.
+                Note that
+                \begin{align*}
+                    A(c\v{u}) &= \p{I + \v{u}\v{v}^T}(c\v{u}) \\
+                            &= c\v{u} + c\v{u}\v{v}^T\v{u} \\
+                            &= c\v{u} - c\v{u} \\
+                            &= \v{0}
+                \end{align*}
+                for any $c \in \RR$.
+                Thus any multiple of $\v{u}$ is in $\nullspace(A)$.
         \end{enumerate}
 
     \item % #5 Problem 3.2 page 24 Done
@@ -216,8 +253,86 @@ Homework 1
             Since $\norm{\v{x}} \neq 0$, because $\v{x}$ is an eigenvector.
         \end{proof}
 
-    \item % #6
-        Let $\theta \in \p{0, 2\pi}$ and 
-    \item % #7
+    \item % #6 Done
+        Let $\theta \in \p{0, 2\pi}$ and define the matrix
+        $Q \in \RR^{2 \times 2}$ by
+        \begin{align*}
+            Q =
+            \begin{bmatrix}
+                \cos{\theta} & -\sin{\theta} \\
+                \sin{\theta} & \cos{\theta}
+            \end{bmatrix}.
+        \end{align*}
+        Show that $\v{y} = Q\v{x}$ is the vector obtained by rotating vector
+        $\v{x}$ by $\theta$ radians.
+        % Hint use polar coordinates for the components of your vector
+
+        \begin{proof}
+            Let $\v{x} \in \RR^2$, have entries $x_1$ and $x_2$, then the
+            following statements are true $x_1 = r\cos{\phi}$ and
+            $x_2 = r\sin{\phi}$, where $r = \sqrt{x_1^2 + x_2^2}$ is the radius
+            or length of the vector and $\phi = \arctan{\frac{x_1}{x_2}}$ is the
+            angle between the vector and the x-axis.
+            If the vector is in the third or fourth quadrants the angle must be shifted
+            as necessary.
+            Now the vector $\v{y}$ can be computed as follows.
+            \begin{align*}
+                \v{y} &= Q\v{x} \\
+                &= 
+                \begin{bmatrix}
+                    \cos{\theta} & -\sin{\theta} \\
+                    \sin{\theta} & \cos{\theta}
+                \end{bmatrix}
+                \begin{bmatrix}
+                    r\cos{\phi}  \\
+                    r\sin{\phi} 
+                \end{bmatrix} \\
+                &= 
+                \begin{bmatrix}
+                    r\p{\cos{\theta}\cos{\phi} - \sin{\theta}\sin{\phi}} \\
+                    r\p{\sin{\theta}\cos{\phi} + \cos{\theta}\sin{\phi}}
+                \end{bmatrix}
+                \intertext{Using some trigonomtric identities}
+                \v{y} &= 
+                \begin{bmatrix}
+                    r\cos{\theta + \phi} \\
+                    r\sin{\theta + \phi}
+                \end{bmatrix}
+            \end{align*}
+            However this is just vector $\v{x}$ except rotated by $\theta$ radians.
+            It has the same length or radius, but the angle was changed by $\theta$.
+        \end{proof}
+
+    \item % #7 Done
+        Below I have shown my function for finding the SVD decomposition of
+        a $2 \times 2$ real matrix. The code does use the circle\_image and arrow
+        functions provided in class.
+
+        \lstinputlisting[language=Matlab]{H01.m}
+        \lstinputlisting[language=Matlab]{SVD2D.m}
+
+        This code produces the following two figures
+        for
+        \begin{align*}
+            A =
+            \begin{bmatrix}
+                1 & 2 \\
+                0 & 2
+            \end{bmatrix}
+        \end{align*}
+        and
+        \begin{align*}
+            A =
+            \begin{bmatrix}
+                1 & 1 \\
+                2 & 2
+            \end{bmatrix}
+        \end{align*}
+        respectively.
+        \begin{center}
+            \includegraphics[scale=.5]{Figures/01_7_1.png} \\
+            \includegraphics[scale=.5]{Figures/01_7_2.png}
+        \end{center}
+
 \end{enumerate}
 \end{document}
