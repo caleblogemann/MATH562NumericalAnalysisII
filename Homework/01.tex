@@ -117,7 +117,38 @@ Homework 1
 
         \end{enumerate}
 
-    \item % #2
+    \item % #2 done
+        Show that if a matrix $A \in \CC^{m \times m}$ is upper triangular and
+        unitary, then it is diagonal.
+
+        \begin{proof}
+            Let $A \in \CC^{m \times m}$ be unitary and upper triangular.
+            I will denote $A$ be its entries $a_{ij}$ and by its columns as
+            vectors $\v{a_j}$.
+            The fact that $A$ is upper triangular implies that $a_{ij} = 0$,
+            for $i > j$.
+            Since $A$ is unitary, $AA^* = I$ or $\v{a}_j^*\v{a}_i = 0$ for
+            $i \neq j$ and $\v{a}_j^*\v{a}_i = 1$ for $i = j$.
+            We will procede by induction. 
+            Consider $\v{a}_1^*\v{a}_j = 0$ for $j = 2, \ldots, m$.
+            However since $A$ is upper triangular $\v{a}_1 = \v{e}_1$, thus
+            $\v{a}_1^*\v{a}_j = a_{1j}$.
+            Therefore $a_{1j} = 0$ for $j = 2, \ldots, m$.
+            Now assume that $a_{ij} = 0$ for $i = 1, \ldots, k - 1$ and
+            $j = i + 1, \ldots, m$.
+            Consider $\v{a}_k^* \v{a}_j = 0$ for $j = k+1, \ldots, m$.
+            However we know that $a_{ik} = 0$ for $i < k$ and $a_{ik} = 0$ for
+            $i > k$, therefore $\v{a}_k = \v{e}_k$.
+            This implies that $\v{a}_k^* \v{a}_j = a_{kj}$.
+            We can now conclude that $a_{kj} = 0$ for $j = k+1, \ldots, m$.
+            Now mathematical induction implies that $a_{ij} = 0$ for
+            $i = 1, \ldots, m$ and $j = i+1, \ldots, m$.
+            This means that all entries above the diagonal are zero, and thus
+            $A$ is a diagonal matrix.
+            Essential each row can be shown to be zero except on the diagonal
+            by noting that the previous row is zero everywhere except the
+            diagonal.
+        \end{proof}
 
     \item % #3 Problem 2.3 page 15 Done
         Let $A \in \CC^{m \times m}$ be Hermitian, that is $A = A^*$.
