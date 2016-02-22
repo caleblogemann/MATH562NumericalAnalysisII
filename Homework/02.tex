@@ -1,0 +1,147 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper]{geometry}
+\usepackage{MATH562}
+
+\begin{document}
+\noindent \textbf{\Large{Caleb Logemann \\
+MATH 562 Numerical Analysis II \\
+Homework 2
+}}
+
+%\lstinputlisting[language=Matlab]{H01_23.m}
+\begin{enumerate}
+    \item % #1 Problem 6.1 page 47
+        Let $P$ be an orthogonal projector.
+        \begin{enumerate}
+            \item[(a)] % Done
+                Prove that $I - 2P$ is unitary.
+
+                \begin{proof}
+                    Let $P$ be an orthogonal projector, that is $P^2 = P$ and
+                    $P = P^*$.
+                    Consider $(I - 2P)^* (I - 2P)$.
+                    \begin{align*}
+                        (I - 2P)^* (I - 2P) &= (I - 2P^*) (I - 2P) \\
+                                            &= I - 2P - 2P^* + 4P^*P
+                        \intertext{Since $P^* = P$}
+                        I - 2P - 2P^* + 4P^*P &= I - 4P + 4P^2
+                        \intertext{Since $P^2 = P$.}
+                        I - 4P + 4P^2 &= I
+                    \end{align*}
+                    Therefore since $(I - 2P)^* (I - 2P) = I$, $I - 2P$ is unitary.
+                \end{proof}
+
+            \item[(b)]
+                Describe the action of $I - 2P$ geometrically.
+                % What can you say about the relationship between a point and
+                % its image
+
+                
+        \end{enumerate}
+
+    \item % #2 Problem 6.3 page 47
+        Suppose that $A \in \CC^{m \times n}$ with $m \ge n$.
+        \begin{enumerate}
+            \item[(a)]
+                Show that $A^* A$ is nonsingular if and only if $A$ has full
+                rank.
+
+                \begin{proof}
+                    Let $A \in \CC^{m \times n}$ with $m \ge n$.
+                    Suppose that $A^* A$ is nonsingular, that is
+                    $(A^* A)^{-1}$ exists.
+                \end{proof}
+
+            \item[(b)] % Done
+                Show that if $A$ has full rank, then $P = A\p{A^* A}^{-1} A^*$
+                is an orthogonal projector onto the range of $A$.
+
+                \begin{proof}
+                    Let $A \in \CC^{m \times n}$ with $m \ge n$ have full rank.
+                    Define $P = A\p{A^* A}^{-1} A^*$.
+                    Consider $P^2$.
+                    \begin{align*}
+                        P^2 &= A\p{A^* A}^{-1} A^* A\p{A^* A}^{-1} A^* \\
+                            &= A\p{A^* A}^{-1} \p{A^* A} \p{A^* A}^{-1} A^* \\
+                            &= A \p{A^* A}^{-1} A^* \\
+                            &= P
+                    \end{align*}
+                    Therefore $P$ is a projector.
+                    Now consider $P^*$
+                    \begin{align*}
+                        P^* &= \p{A \p{A^* A}^{-1} A^*}^* \\
+                            &= A \p{A \p{A^* A}^{-1}}^* \\
+                            &= A \p{\p{A^* A}^{-1}}^* A^* \\
+                    \end{align*}
+                    Notice that $A^* A$ is Hermitian, and that it is known that
+                    the inverse of a Hermitian matrix is also Hermitian.
+                    This implies that $\p{\p{A^* A}^{-1}}^* = \p{A^* A}^{-1}$, so
+                    \begin{align*}
+                        P^* &= A \p{\p{A^* A}^{-1}}^* A^* \\
+                            &= A \p{A^* A}^{-1} A^* \\
+                            &= P
+                    \end{align*}
+                    We can now conclude that $P$ is an orthogonal projector.
+                \end{proof}
+        \end{enumerate}
+
+    \item % #3 Problem 7.5 page 55
+        Suppose that $A \in \CC^{m \times n}$ with $m \ge n$, and let
+        $A = \hat{Q}\hat{R}$ be the reduced $QR$ factorization of $A$.
+        \begin{enumerate}
+            \item[(a)]
+                Show that $A$ has full rank if and only if all the diagonal
+                entries of $\hat{R}$ are nonzero.
+
+            \item[(b)]
+                Suppose that $\hat{R}$ has $k$ nonzero diagonal entries and
+                $n - k$ zero diagonal entries.
+                What does that imply about the rank of $A$.
+                Justify your answer.
+        \end{enumerate}
+
+    \item % #4 Problem 8.1 page 61
+        Let $A$ be an $(m \times n)$ matrix.
+        Determine the exact number of floating point additions, subtractions,
+        mutliplications, and divisions involved in computing the reduced $QR$
+        factorization of $A$ using algorithm 8.1 on page 58.
+
+    \item % #5 Problem 10.1 page 76
+        Let $F = I - 2\v{u}\v{u}^T$ be a Householder reflector on $\RR^m$.
+        Deterimine the eigenvalues, the determinant, and the singular values of
+        $F$.
+        Give a geometric argument supporting your algebraic eigenvalue
+        computation.
+
+    \item % #6
+        \begin{enumerate}
+            \item[(a)]
+                Let $\v{x}, \v{y} \in \CC^m$ satisfy i) $\v{x} \neq \v{y}$, ii)
+                $\norm[2]{\v{x}} = \norm[2]{\v{y}}$, iii)
+                $\v{x}^* \v{y} \in \RR$.
+                Show that there is a reflector $F$ (satisfying $F^* = F$ and $F^2 = I$)
+                such that $F\v{x} = \v{y}$.
+
+            \item[(b)]
+                Let $\v{x} \in \CC^m$, $\v{x} \neq 0$.
+                The polar form of the first component of $\v{x}$ is
+                $x_1 = re^{i\theta}$.
+                Set $\v{y} = \norm[2]{\v{x}} e^{i\theta} \v{e}_1$.
+                Assuming $\v{x}$ is not a mutliple of $\v{e}_1$, show that
+                $\v{x}, \v{y}$ satisfy properties i), ii), and iii) above.
+        \end{enumerate}
+
+    \item % #7
+        Write a MATLAB function [$W$,$R$] = house($A$) that takes as input a
+        $(m\times n)$ matrix $A$ and returns an implicit representation of the
+        full $QR$ factorization of $A$.
+        The matrix $W$ should be the lower triangular matrix whose columns are
+        the vectors $\v{v}_1,\ldots,\v{v}_n$ where
+        $\v{v}_k = \norm[2]{\v{x}_k}\v{e}_1 − \v{x}_k$ is used to define the
+        Householder reflector $F_k$ at the k-th stage of the process.
+        $R$ should be the triangular factor in the factorization.
+        Some test matrices will be supplied next week.
+        You should turn in your code and the output from the test matrices for
+        this problem.
+\end{enumerate}
+\end{document}
