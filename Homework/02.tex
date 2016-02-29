@@ -36,20 +36,45 @@ Homework 2
                 % What can you say about the relationship between a point and
                 % its image
 
-                
+
         \end{enumerate}
 
     \item % #2 Problem 6.3 page 47
         Suppose that $A \in \CC^{m \times n}$ with $m \ge n$.
         \begin{enumerate}
-            \item[(a)]
+            \item[(a)] % Done
                 Show that $A^* A$ is nonsingular if and only if $A$ has full
                 rank.
 
                 \begin{proof}
                     Let $A \in \CC^{m \times n}$ with $m \ge n$.
-                    Suppose that $A^* A$ is nonsingular, that is
-                    $(A^* A)^{-1}$ exists.
+                    Suppose that $A^* A$ is nonsingular, this implies that
+                    $\nullspace{A^* A} = \set{\v{0}}$.
+                    Now consider $\v{x} \in \nullspace{A}$, that is
+                    $A\v{x} = \v{0}$.
+                    By right multiplying by $A^*$, we conclude that
+                    $A^* A \v{x} = \v{0}$.
+                    This implies that $\v{x} \in \nullspace{A^* A}$ and
+                    therefore $\v{x} = \v{0}$.
+                    This implies that $\nullspace{A} = \set{\v{0}}$, that is
+                    $A$ has full rank.
+
+                    Now suppose that $A$ full rank, that is
+                    $\nullspace{A} = \v{0}$.
+                    Now consider $\v{x} \in \nullspace{A^* A}$, that is
+                    $A^* A \v{x} = \v{0}$.
+                    By right multiplying by $\v{x}^*$, we note that
+                    \begin{align*}
+                        \v{x}^* A^* A \v{x} &= 0 \\
+                        \p{A \v{x}}^* A\v{x} &= 0 \\
+                        \norm[2]{A\v{x}}^2 &= 0.
+                    \end{align*}
+                    The only way the for the 2-norm of a vector to be zero
+                    is if that vector is the zero vector, therefore
+                    $A\v{x} = \v{0}$.
+                    Therefore $\v{x} \in \nullspace{A}$ and $\v{x} = \v{0}$.
+                    This implies that $\nullspace{A^* A} = \set{\v{0}}$, which
+                    implies that $A^* A$ is nonsingular.
                 \end{proof}
 
             \item[(b)] % Done
@@ -82,6 +107,11 @@ Homework 2
                             &= P
                     \end{align*}
                     We can now conclude that $P$ is an orthogonal projector.
+                    Finally we need to show that $P$ projects onto the range of
+                    $A$, that is for every vector,  $\v{x} \in \range(A)$,
+                    there exists a vector $\v{y}$ such that $P\v{y} = \v{x}$.
+                    Let $\v{x} \in \range(A)$, then there exists $\v{z}$ such that
+                    $A\v{z} = \v{x}$.
                 \end{proof}
         \end{enumerate}
 
@@ -100,11 +130,53 @@ Homework 2
                 Justify your answer.
         \end{enumerate}
 
-    \item % #4 Problem 8.1 page 61
+    \item % #4 Problem 8.1 page 61 Done
         Let $A$ be an $(m \times n)$ matrix.
         Determine the exact number of floating point additions, subtractions,
         mutliplications, and divisions involved in computing the reduced $QR$
         factorization of $A$ using algorithm 8.1 on page 58.
+
+        The first for loop in algorithm 8.1 contains no floating point
+        operations, and thus does not contribute to the overall flop count.
+        The second for loop does contain floating point operations.
+        This for loop has an inner nested loop, I will first count the
+        number of operations in this inner loop.
+        The first operation in this inner loop is a multiplication of a row
+        vector and column vector each of length $m$.
+        Therefore this operation includes $m$ multiplications and $m-1$
+        additions.
+        The second operation $\v{v}_j - r_{ij} \v{q}_i$ is the multiplication
+        of one vector by a constant, $m$ operations, and the subtraction of
+        two vectors, another $m$ operations.
+        Therefore each iteration of this loop includes
+        $m + m - 1 + m + m = 4m - 1$ operations.
+        This loop iterates from $j = i + 1$ to $n$, so the total number of
+        operations for this loop can be described as the following sum.
+        \begin{align*}
+            \sum{j = i+1}{n}{4m - 1} &= \p{4m - 1}{n - i}
+        \end{align*}
+        The outer for loop first compute $\norm{\v{v}_i}$, assuming this is
+        the two norm then this will take $m$ multiplications, $m - 1$ additions,
+        and $1$ squareroot operation.
+        Therefore the entire norm computations requires $2m$ flops.
+        Even if this does not refer to the 2-norm, the number of flops will be
+        similar.
+        The next computation divides a vector by a constant, this requires $m$
+        divisions.
+        Therefore the one iteration of the outer for loop requires $3m$ flops
+        and the number of flops in the inner loop.
+        This loop iterates from $i = 1$ to $n$, so the total flop count can be
+        expressed as follows.
+        \begin{align*}
+            \sum{i = 1}{n}{3m + \p{4m - 1}\p{n-i}} &= \sum{i = 1}{n}{3m} + \p{4m-1}\sum{i=1}{n}{n-i} \\
+            &= 3mn + \p{4m - 1}\p{\sum{i=1}{n}{n} - \sum{i=1}{n}{i}} \\
+            &= 3mn + \p{4m - 1}\p{n^2 - \frac{n(n+1)}{2}} \\
+            &= 3mn + \p{4m - 1}\p{\frac{n^2-n}{2}} \\
+            &= 3mn + \p{4m - 1}\p{\frac{n^2-n}{2}} \\
+            &= 2mn^2 + mn - \frac{1}{2}n^2 + \frac{1}{2}n
+        \end{align*}
+        Thus the total number of flops for algorithm 8.1 is
+        $2mn^2 + mn - \frac{1}{2}n^2 + \frac{1}{2}n$.
 
     \item % #5 Problem 10.1 page 76
         Let $F = I - 2\v{u}\v{u}^T$ be a Householder reflector on $\RR^m$.
