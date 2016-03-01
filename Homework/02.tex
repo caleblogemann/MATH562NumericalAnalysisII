@@ -128,11 +128,42 @@ Homework 2
                 Show that $A$ has full rank if and only if all the diagonal
                 entries of $\hat{R}$ are nonzero.
 
+                \begin{proof}
+                    Let $A \in \CC^{m \times n}$ with $m \ge n$ have full rank
+                    and let $\hat{Q}\hat{R} = A$ be  the reduced $QR$ factorization.
+                    Since $A$ has full rank, $\nullspace{A} = \set{\v{0}}$.
+                    Let $\v{x} \in \nullspace{\hat{R}}$, then
+                    $\hat{R}\v{x} = \v{0}$.
+                    Right multiplying by $\hat{Q}$ results in
+                    $\hat{Q}\hat{R}\v{x} = A\v{x} = \v{0}$.
+                    Therefore $\v{x} = \v{0}$, this implies that
+                    $\hat{R}$ has full rank.
+                    Since $\hat{R}$ is upper triangular and full rank, the
+                    diagonal entries of $\hat{R}$ must all be nonzero.
+                    Let $\hat{Q}\hat{R}\v{x} = \v{0}$
+                    Now assume that all the diagonal entries of $\hat{R}$ are
+                    nonzero, this implies that $\hat{R}$ has full rank.
+                    Therefore $\nullspace{\hat{R}} = \set{\v{0}}$.
+                    Let $\v{x} \in \nullspace{A}$, thus $A \v{x} = \v{0}$.
+                    Using the reduced $QR$ factorization implies that
+                    $\hat{Q}\hat{R} \v{x} = \v{0}$.
+                    Right multiplying by $\hat{Q}^*$ results in
+                    \begin{align*}
+                        \hat{Q}^*\hat{Q}\hat{R} \v{x} &= \hat{Q}^*\v{0} \\
+                        \hat{R}\v{x} &= \v{0}
+                    \end{align*}
+                    This implies that $\v{x} \in \nullspace{\hat{R}}$ and
+                    therefore $\v{x} = \v{0}$.
+                    Therefore $\nullspace{A} = \set{\v{0}}$, and $A$ has full
+                    rank.
+                \end{proof}
+
             \item[(b)]
                 Suppose that $\hat{R}$ has $k$ nonzero diagonal entries and
                 $n - k$ zero diagonal entries.
                 What does that imply about the rank of $A$.
                 Justify your answer.
+
         \end{enumerate}
 
     \item % #4 Problem 8.1 page 61 Done
@@ -183,12 +214,55 @@ Homework 2
         Thus the total number of flops for algorithm 8.1 is
         $2mn^2 + mn - \frac{1}{2}n^2 + \frac{1}{2}n$.
 
-    \item % #5 Problem 10.1 page 76
+    \item % #5 Problem 10.1 page 76 Done
         Let $F = I - 2\v{u}\v{u}^T$ be a Householder reflector on $\RR^m$.
         Deterimine the eigenvalues, the determinant, and the singular values of
         $F$.
         Give a geometric argument supporting your algebraic eigenvalue
         computation.
+
+        First consider $F\v{u}$
+
+        \begin{align*}
+            F\v{u} &= \p{I - 2\v{u}\v{u}^T} \v{u} \\
+                   &= \v{u} - 2\v{u}^T\v{u} \v{u} \\
+                   &= \p{1 - 2\v{u}^T\v{u}} \v{u}
+        \end{align*}
+        Therefore $1 - 2\v{u}^T\v{u}$ is an eigenvalue, when
+        $\norm[2]{\v{u}} = 1$, then this eigenvalue is $-1$.
+        Geometrically this refers to the vectors that are multiples of $\v{u}$,
+        which defines the reflector.
+        When $F$ is applied to these vectors, they are simply reflected over the
+        hyperplane orthogonal to $\v{u}$.
+        This is simply $-1$ times the original vector.
+
+        Now consider $\v{v}$, such that $\v{v}$ is orthogonal to $\v{u}$,
+        that is $\v{u}^T\v{v} = 0$.
+        In this case
+        \begin{align*}
+            F\v{v} &= \p{I - 2\v{u}\v{u}^T}\v{v} \\
+            &= \v{v} - 2 \v{u}^T \v{v} \v{u} \\
+            &= \v{v} - 2 \times 0 \times \v{u} \\
+            &= \v{v}
+        \end{align*}
+        Thus $1$ is also an eigenvalue of $F$.
+        In fact this eigenvalue has multiplicity $m - 1$, because there are
+        $m - 1$ linearly indepenent vectors orthogonal to $\v{u}$.
+        These vectors $\v{v}$ lay in the hyperplane orthogonal to $\v{u}$, thus
+        when $F$ is applied to these vectors they are reflecte onto themselves.
+        These multiplicities account for all of the eigenvalues of $F$.
+
+        The eigenvalues of $F$ are thus $-1$ with multiplicity $1$ and $1$ with
+        multiplicity $m - 1$.
+        The determinant of a matrix is the prouct of its eigenvalues, therefore
+        the determinant of $F$ is $-1$.
+
+        The singular values of $F$ are the squareroots of the eigenvalues of
+        $F^* F$.
+        Since $F$ is Hermitian $F^* F = F^2$, and thus the eigenvalues of
+        $F^* F$ are the eigenvalues of $F$ squared.
+        Therefore the eigenvalues of $F^* F$ are all $1$.
+        Now the singular values of $F$ are all $\sqrt{1} = 1$.
 
     \item % #6 Done
         \begin{enumerate}
