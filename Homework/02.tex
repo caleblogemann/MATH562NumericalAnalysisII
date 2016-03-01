@@ -39,7 +39,7 @@ Homework 2
 
         \end{enumerate}
 
-    \item % #2 Problem 6.3 page 47
+    \item % #2 Problem 6.3 page 47 Done
         Suppose that $A \in \CC^{m \times n}$ with $m \ge n$.
         \begin{enumerate}
             \item[(a)] % Done
@@ -112,6 +112,11 @@ Homework 2
                     there exists a vector $\v{y}$ such that $P\v{y} = \v{x}$.
                     Let $\v{x} \in \range(A)$, then there exists $\v{z}$ such that
                     $A\v{z} = \v{x}$.
+                    Since $(A^* A)$ is nonsingular $(A^* A)^{-1}$ exists.
+                    Therefore $A\v{z} = A(A^* A)^{-1}(A^* A)\v{z}$.
+                    This can be rewritten as $A(A^* A)^{-1}A^* \v{x} = P\v{x}$.
+                    Therefore $P\v{x} = \v{x}$ and $\v{x} \in \range(P)$.
+                    Therefore $P$ projects onto the range of $A$.
                 \end{proof}
         \end{enumerate}
 
@@ -185,25 +190,86 @@ Homework 2
         Give a geometric argument supporting your algebraic eigenvalue
         computation.
 
-    \item % #6
+    \item % #6 Done
         \begin{enumerate}
-            \item[(a)]
+            \item[(a)] % Done
                 Let $\v{x}, \v{y} \in \CC^m$ satisfy i) $\v{x} \neq \v{y}$, ii)
                 $\norm[2]{\v{x}} = \norm[2]{\v{y}}$, iii)
                 $\v{x}^* \v{y} \in \RR$.
                 Show that there is a reflector $F$ (satisfying $F^* = F$ and $F^2 = I$)
                 such that $F\v{x} = \v{y}$.
 
-            \item[(b)]
+                Let $F = I - 2 \frac{(\v{y} - \v{x})(\v{y} - \v{x})^*}{(\v{y} - \v{x})^*(\v{y} - \v{x})}$.
+                Since $\v{x}^* \v{y} \in \RR$, then
+                $\bar{\v{x}^* \v{y}} = \v{y}^* \v{x} \in \RR$ and
+                $\v{x}^* \v{y} = \v{x}^* \v{y}$.
+                This allows for $F$ to be simplified as follows
+                \begin{align*}
+                    F &= I - 2 \frac{(\v{y} - \v{x})(\v{y} - \v{x})^*}{(\v{y} - \v{x})^*(\v{y} - \v{x})} \\
+                      &= I - 2 \frac{(\v{y} - \v{x})(\v{y} - \v{x})^*}{\v{y}^*\v{y} - \v{y}^*\v{x} - \v{x}^*\v{y} + \v{x}^*\v{x}} \\
+                      &= I - 2 \frac{(\v{y} - \v{x})(\v{y} - \v{x})^*}{2\norm[2]{\v{x}}^2 - 2\v{x}^*\v{y}} \\
+                      &= I - \frac{(\v{y} - \v{x})(\v{y} - \v{x})^*}{\norm[2]{\v{x}}^2 - \v{x}^*\v{y}} \\
+                \end{align*}
+                Now consider $F^*$
+                \begin{align*}
+                    F^* &= \p{I - \frac{(\v{y} - \v{x})(\v{y} - \v{x})^*}{\norm[2]{\v{x}}^2 - \v{x}^*\v{y}}}^* \\
+                        &= I^* - \frac{\p{(\v{y} - \v{x})(\v{y} - \v{x})^*}^*}{\norm[2]{\v{x}}^2 - \v{x}^*\v{y}} \\
+                        &= I - \frac{(\v{y} - \v{x})(\v{y} - \v{x})^*}{\norm[2]{\v{x}}^2 - \v{x}^*\v{y}} \\
+                        &= F
+                \end{align*}
+                Also consider $F^2$
+                \begin{align*}
+                    F^2 &= \p{I - \frac{(\v{y} - \v{x})(\v{y} - \v{x})^*}{\norm[2]{\v{x}}^2 - \v{x}^*\v{y}}}^2 \\
+                        &= I^2 - 2\frac{(\v{y} - \v{x})(\v{y} - \v{x})^*}{\norm[2]{\v{x}}^2 - \v{x}^*\v{y}} + \p{\frac{(\v{y} - \v{x})(\v{y} - \v{x})^*}{\norm[2]{\v{x}}^2 - \v{x}^*\v{y}}}^2 \\
+                        &= I - 2\frac{(\v{y} - \v{x})(\v{y} - \v{x})^*}{\norm[2]{\v{x}}^2 - \v{x}^*\v{y}} + \frac{(\v{y} - \v{x})(\v{y} - \v{x})^*(\v{y} - \v{x})(\v{y} - \v{x})^*}{\p{\norm[2]{\v{x}}^2 - \v{x}^*\v{y}}^2} \\
+                        &= I - 2\frac{(\v{y} - \v{x})(\v{y} - \v{x})^*}{\norm[2]{\v{x}}^2 - \v{x}^*\v{y}} + 2\p{\norm[2]{\v{x}}^2 - \v{x}^*\v{y}}\frac{(\v{y} - \v{x})(\v{y} - \v{x})^*}{\p{\norm[2]{\v{x}}^2 - \v{x}^*\v{y}}^2} \\
+                        &= I - 2\frac{(\v{y} - \v{x})(\v{y} - \v{x})^*}{\norm[2]{\v{x}}^2 - \v{x}^*\v{y}} + 2\frac{(\v{y} - \v{x})(\v{y} - \v{x})^*}{\norm[2]{\v{x}}^2 - \v{x}^*\v{y}} \\
+                        &= I
+                \end{align*}
+                Thus $F$ is a reflector.
+                Finally we can examine $F\v{x}$.
+                \begin{align*}
+                    F\v{x} &= \p{I - \frac{(\v{y} - \v{x})(\v{y} - \v{x})^*}{\norm[2]{\v{x}}^2 - \v{x}^*\v{y}}}\v{x} \\
+                           &= \v{x} - (\v{y} - \v{x})\frac{(\v{y} - \v{x})^*\v{x}}{\norm[2]{\v{x}}^2 - \v{x}^*\v{y}} \\
+                           &= \v{x} - (\v{y} - \v{x})\frac{\v{y}^* \v{x} - \v{x}^*\v{x}}{\norm[2]{\v{x}}^2 - \v{x}^*\v{y}} \\
+                           &= \v{x} + (\v{y} - \v{x})\frac{\norm[2]{\v{x}}^2 - \v{x}^* \v{y}}{\norm[2]{\v{x}}^2 - \v{x}^*\v{y}} \\
+                           &= \v{x} + \v{y} - \v{x} \\
+                           &=  \v{y}
+                \end{align*}
+
+            \item[(b)] % Done
                 Let $\v{x} \in \CC^m$, $\v{x} \neq 0$.
                 The polar form of the first component of $\v{x}$ is
                 $x_1 = re^{i\theta}$.
                 Set $\v{y} = \norm[2]{\v{x}} e^{i\theta} \v{e}_1$.
                 Assuming $\v{x}$ is not a mutliple of $\v{e}_1$, show that
                 $\v{x}, \v{y}$ satisfy properties i), ii), and iii) above.
+
+                Since $\v{x}$ is not a multiple of $\v{e}_1$ there exists an
+                index $i \neq 1$ such that $x_i \neq 0$.
+                However $y_i = 0$ for all $i \neq 1$, therefore $\v{x} \neq \v{y}$
+                and property i) is satisfied.
+                Consider $\norm[2]{\v{y}}$
+                \begin{align*}
+                    \norm[2]{\v{y}} &= \norm[2]{\norm[2]{\v{x}} e^{i\theta} \v{e}_1} \\
+                    &= \norm[2]{\v{x}} \abs{e^{i\theta}} \norm[2]{\v{e}_1} \\
+                    &= \norm[2]{\v{x}} \times 1 \times 1 \\
+                    &= \norm[2]{\v{x}}.
+                \end{align*}
+                Therefore property ii) is satisfied.
+                Now consider $\v{x}^* \v{y}$.
+                Since $\v{y}$ is a multiple $\v{e}_1$,
+                \begin{align*}
+                    \v{x}^* \v{y} &= \bar{x_1} \times y_1 \\
+                    &= \bar{re^{i\theta}} \norm[2]{\v{x}} e^{i\theta} \\
+                    &= r e^{-i\theta} \norm[2]{\v{x}} e^{i\theta} \\
+                    &= r \norm[2]{\v{x}} e^0 \\
+                    &= r \norm[2]{\v{x}} \in \RR
+                \end{align*}
+                Therefore property iii) is satisfied.
         \end{enumerate}
 
-    \item % #7
+    \item % #7 Done
         Write a MATLAB function [$W$,$R$] = house($A$) that takes as input a
         $(m\times n)$ matrix $A$ and returns an implicit representation of the
         full $QR$ factorization of $A$.
@@ -215,5 +281,47 @@ Homework 2
         Some test matrices will be supplied next week.
         You should turn in your code and the output from the test matrices for
         this problem.
+
+        My function and the code to test the two test matrices are shown below.
+        \lstinputlisting[language=Matlab]{HouseholderQR.m}
+        \lstinputlisting[language=Matlab]{H02.m}
+        This code gives the following output
+        \begin{verbatim}
+                >> H02
+
+                W =
+
+                    0.7420         0         0
+                    0.2723    0.7866         0
+                    0.4765    0.1192    0.1988
+                    0.2723   -0.4284    0.9081
+                    0.2723   -0.4284   -0.3685
+
+
+                R =
+
+                -9.8995   -9.4954   -9.6975
+                -0.0000   -3.2919   -3.0129
+                -0.0000   -0.0000   -1.9701
+                -0.0000    0.0000         0
+                -0.0000    0.0000         0
+
+
+                W =
+
+                    0.8660         0
+                -0.2887    0.8165
+                -0.2887   -0.4082
+                -0.2887   -0.4082
+
+
+                R =
+
+                -1.0000   -5.0000
+                -0.0000  -10.0000
+                -0.0000    0.0000
+                -0.0000    0.0000
+        \end{verbatim}
+
 \end{enumerate}
 \end{document}
