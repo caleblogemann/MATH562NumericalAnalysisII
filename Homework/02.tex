@@ -31,12 +31,23 @@ Homework 2
                     Therefore since $(I - 2P)^* (I - 2P) = I$, $I - 2P$ is unitary.
                 \end{proof}
 
-            \item[(b)]
+            \item[(b)] % Done
                 Describe the action of $I - 2P$ geometrically.
                 % What can you say about the relationship between a point and
                 % its image
 
-
+                Since $P$ is a projector $P\v{x}$ is the projection of $\v{x}$
+                onto the range of $P$.
+                Therefore $\p{I - 2P}\v{x} = \v{x} - 2P\v{x}$, can be thought of
+                as the difference between $\v{x}$ and $2P\v{x}$.
+                Let us first consider the difference $\v{x} - P\v{x}$.
+                This is the projection of $\v{x}$ onto the space orthogonal
+                to the space of $P$.
+                Since $\v{x} - 2P\v{x} = \v{x} - P\v{x} - P\v{x}$, we can think of
+                this as subtracting the projection again.
+                This results in a reflection over the subspace orthogonal to $P$.
+                This is in fact a Householder reflector over the subspace orthogonal
+                to the range $P$.
         \end{enumerate}
 
     \item % #2 Problem 6.3 page 47 Done
@@ -124,7 +135,7 @@ Homework 2
         Suppose that $A \in \CC^{m \times n}$ with $m \ge n$, and let
         $A = \hat{Q}\hat{R}$ be the reduced $QR$ factorization of $A$.
         \begin{enumerate}
-            \item[(a)]
+            \item[(a)] % Done
                 Show that $A$ has full rank if and only if all the diagonal
                 entries of $\hat{R}$ are nonzero.
 
@@ -164,6 +175,32 @@ Homework 2
                 What does that imply about the rank of $A$.
                 Justify your answer.
 
+                This implies that $\rank(A) \ge k$.
+                We have shown in part (a) that if $A$ has full
+                rank then $\rank(A) = k = n$.
+                Consider the example
+                \begin{align*}
+                    A &=
+                    \begin{bmatrix*}
+                        0 & 2 & 3 \\
+                        0 & 0 & 5 \\
+                        0 & 0 & 0
+                    \end{bmatrix*}
+                    \intertext{with $QR$ factorization}
+                    Q &=
+                    \begin{bmatrix*}
+                        1 & 0 & 0 \\
+                        0 & 1 & 0 \\
+                        0 & 0 & 1
+                    \end{bmatrix*} \\
+                    R &=
+                    \begin{bmatrix*}
+                        0 & 2 & 3 \\
+                        0 & 0 & 5 \\
+                        0 & 0 & 0 
+                    \end{bmatrix*}
+                \end{align*}
+                In this case $k = 0$ and $\rank(A) = 2$, so $\rank(A) \ge k$.
         \end{enumerate}
 
     \item % #4 Problem 8.1 page 61 Done
@@ -358,7 +395,7 @@ Homework 2
 
         My function and the code to test the two test matrices are shown below.
         \lstinputlisting[language=Matlab]{HouseholderQR.m}
-        \lstinputlisting[language=Matlab]{H02.m}
+        \lstinputlisting[language=Matlab, firstline=1, lastline=5]{H02.m}
         This code gives the following output
         \begin{verbatim}
                 >> H02
@@ -374,27 +411,27 @@ Homework 2
 
                 R =
 
-                -9.8995   -9.4954   -9.6975
-                -0.0000   -3.2919   -3.0129
-                -0.0000   -0.0000   -1.9701
-                -0.0000    0.0000         0
-                -0.0000    0.0000         0
+                    -9.8995   -9.4954   -9.6975
+                    -0.0000   -3.2919   -3.0129
+                    -0.0000   -0.0000   -1.9701
+                    -0.0000    0.0000         0
+                    -0.0000    0.0000         0
 
 
                 W =
 
                     0.8660         0
-                -0.2887    0.8165
-                -0.2887   -0.4082
-                -0.2887   -0.4082
+                    -0.2887    0.8165
+                    -0.2887   -0.4082
+                    -0.2887   -0.4082
 
 
                 R =
 
-                -1.0000   -5.0000
-                -0.0000  -10.0000
-                -0.0000    0.0000
-                -0.0000    0.0000
+                    -1.0000   -5.0000
+                    -0.0000  -10.0000
+                    -0.0000    0.0000
+                    -0.0000    0.0000
         \end{verbatim}
 
 \end{enumerate}
