@@ -1,0 +1,57 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper]{geometry}
+\usepackage{MATH562}
+
+\begin{document}
+\noindent \textbf{\Large{Caleb Logemann \\
+MATH 562 Numerical Analysis II \\
+Homework 3
+}}
+
+%\lstinputlisting[language=Matlab]{H01_23.m}
+\begin{enumerate}
+    \item % #1
+        Determine the relative condition number for the following problem.
+        Are there values of $x$ for which the problem is ill-conditioned?
+        Justify your answer.
+
+    \item % #2
+        Determine whether the calculation $f(x, y) = (1 + x)y^2$ is backward
+        stable by the alogirithm
+        \[
+            \tilde{f}(x, y) = \br{1 \oplus fl(x)} \otimes \br{fl(y) \otimes fl(y)}
+        \]
+
+    \item % #3
+        \begin{enumerate}
+            \item[(a)]
+                Compute the LU factorization $A = LU$, of
+                \[
+                    A &=
+                    \begin{bmatrix}
+                        1 & 2 & 4 \\
+                        2 & 3 & 4 \\
+                        2 & 5 & 6
+                    \end{bmatrix}
+                \]
+                Use the factorization to solve the system $A\v{x} = \v{b}$
+                where $\v{b} = \br{-1 1 1}^T$.
+
+            \item[(b)]
+                Solve the system $A\v{x} = \v{b}$ by LU factorization with
+                partial pivoting
+        \end{enumerate}
+
+    \item % #4
+        Let $A \in \CC^{m \times m}$ be nonsingular.
+        Show that $A$ has an LU factorization if and only if for each $k$, such
+        that $1 \le k \le m$, the upper left $(k \times k)$ block $A(1:k, 1:k)$
+        of $A$ is nonsingular.
+        Show that this LU factorization is unique.
+
+    \item % #5
+        Rank Deficient Least Squares Problem:
+    \item % #6
+    \item % #7
+\end{enumerate}
+\end{document}
