@@ -10,7 +10,7 @@ Homework 3
 
 %\lstinputlisting[language=Matlab]{H01_23.m}
 \begin{enumerate}
-    \item % #1
+    \item % #1 Done
         Determine the relative condition number for the following problem.
         Are there values of $x$ for which the problem is ill-conditioned?
         Justify your answer.
@@ -29,23 +29,63 @@ Homework 3
         Thus the relative condition number for this problem is
         \begin{align*}
             \kappa &= \frac{\abs{f'(x)}}{\abs{f(x)}/\abs{x}} \\
-            &= 
+                   &= \abs{\frac{2xe^{-x}}{\p{1 + e^{-x}}^2} / \frac{1 - e^{-x}}{1 + e^{-x}}} \\
+                   &= \abs{\frac{2xe^{-x}}{\p{1 + e^{-x}}^2} \times \frac{1 + e^{-x}}{1 - e^{-x}}} \\
+                   &= \abs{\frac{2xe^{-x}}{\p{1 + e^{-x}}} \times \frac{1}{1 - e^{-x}}} \\
+                   &= \abs{\frac{2xe^{-x}}{\p{1 - e^{-2x}}}} \\
         \end{align*}
 
+        This problem is not ill-conditioned because for any $x$ this relitive
+        condition number is small.
+        At $x = 0$, this condition number is undefined, but L'Hopital's rule
+        shows that the limit is equal to $1$.
+        \begin{align*}
+            \lim{x \to 0}{\kappa} &= \lim{x \to 0}{\frac{2 e^{-x} - 2 x e^{-x}}{2 e^{-2x}}} \\
+                                  &= \frac{2 e^{0}}{2 e^{0}} \\
+                                  &= 1
+        \end{align*}
+        As $x \to \infty$, $2xe^{-x} \to 0$ and $1 - e^{-2x} \to 1$, therefore $\kappa \to 0$.
+        As $x \to -\infty$, $1 - e^{-2x} > 2xe^{-x}$, so $\kappa \to 0$.
+        In fact $\kappa \le 1$ for all $x$, therefore this problem is not
+        ill-conditioned.
 
-    \item % #2
+    \item % #2 Done
         Determine whether the calculation $f(x, y) = (1 + x)y^2$ is backward
         stable by the alogirithm
         \[
             \tilde{f}(x, y) = \br{1 \oplus fl(x)} \otimes \br{fl(y) \otimes fl(y)}
         \]
 
+        The algorithm $\tilde{f}$ is backward stable if there exists
+        $\tilde{\v{x}} = (\tilde{x}, \tilde{y})$ such that
+        $\tilde{f}(x, y) = f(\tilde{x}, \tilde{y})$ and
+        $\frac{\norm{\v{x} - \tilde{\v{x}}}}{\norm{\v{x}}} = O(\epsilon_{machine})$
+        for all $\v{x}$.
+
+        \begin{align*}
+            \tilde{f}(x, y) &= \br{1 \oplus fl(x)} \otimes \br{fl(y) \otimes fl(y)} \\
+            &= \br{1 \oplus x(1 + \epsilon_1)} \otimes \br{y(1 + \epsilon_2) \otimes y(1 + \epsilon_3)} \\
+            &= \br{1 + x(1 + \epsilon_1)}(1 + \epsilon_4) \otimes \br{y(1 + \epsilon_2) \times y(1 + \epsilon_3)}(1 + \epsilon_5) \\
+            &= \br{1 + x(1 + \epsilon_1)}(1 + \epsilon_4) \times \br{y(1 + \epsilon_2) \times y(1 + \epsilon_3)}(1 + \epsilon_5)(1 + \epsilon_6) \\
+            &= \br{1 + x(1 + \epsilon_1)} y^2 (1 + \epsilon_7)
+            \intertext{where $\epsilon_7 = O(\epsilon_{machine})$}
+            \tilde{f}(x, y) &= \br{1 + x(1 + \epsilon_1)} y^2 (1 + \epsilon_7) \\
+                            &= \br{1 + x(1 + \epsilon_1)} \p{y \sqrt{1 + \epsilon_7}}^2 \\
+                            &= \br{1 + x(1 + \epsilon_1)} \p{y (1 + \epsilon_8)}^2 \\
+                            &= f(x(1 + \epsilon_1), y (1 + \epsilon_8))
+        \end{align*}
+        Therefore $\tilde{x} = x(1 + \epsilon_1)$ and
+        $\tilde{y} = y (1 + \epsilon_8)$.
+        This does satisfy $\frac{\norm{\v{x} - \tilde{\v{x}}}}{\norm{\v{x}}} = O(\epsilon_{machine})$,
+        because $\norm{\v{x} - \tilde{\v{x}}} = \sqrt{\epsilon_1^2 + \epsilon_8^2} = O(\epsilon_{machine})$.
+        So this algorithm is backward stable.
+
     \item % #3
         \begin{enumerate}
             \item[(a)]
                 Compute the LU factorization $A = LU$, of
                 \[
-                    A &=
+                    A =
                     \begin{bmatrix}
                         1 & 2 & 4 \\
                         2 & 3 & 4 \\
@@ -54,6 +94,7 @@ Homework 3
                 \]
                 Use the factorization to solve the system $A\v{x} = \v{b}$
                 where $\v{b} = \br{-1 1 1}^T$.
+
 
             \item[(b)]
                 Solve the system $A\v{x} = \v{b}$ by LU factorization with
@@ -69,7 +110,41 @@ Homework 3
 
     \item % #5
         Rank Deficient Least Squares Problem:
+
     \item % #6
+        Consider the matrix
+        \[
+            A =
+            \begin{bmatrix}
+                1 & 2 \\
+                0 & 1 \\
+                1 & 0 \\
+            \end{bmatrix}
+        \]
+        \begin{enumerate}
+            \item[(a)]
+                Using any method you like, determine reduced and full $QR$
+                factorizations.
+
+            \item[(b)]
+                Use the $QR$ factorization to solve the linear least square problem
+                \[
+                    \min*_{\v{x}}\norm[2]{A\v{x} - \v{b}}^2
+                \]
+                with $\v{b} = \br{1 1 0}^T$.
+
+            \item[(c)]
+                Use the $QR$ factorization to solve the linear least squares
+                problem
+                \[
+                    \min*_{\v{x}}\norm[2]{A\v{x} - \v{b}}^2
+                \]
+                with matrix $A \in \RR^{m \times n}$ with rank $n$ and
+                $\v{b} \in \RR^m$.
+        \end{enumerate}
+
     \item % #7
+
+
 \end{enumerate}
 \end{document}
