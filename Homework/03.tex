@@ -14,6 +14,24 @@ Homework 3
         Determine the relative condition number for the following problem.
         Are there values of $x$ for which the problem is ill-conditioned?
         Justify your answer.
+        \[
+            f(x) = \frac{1 - e^{-x}}{1 + e^{-x}}
+        \]
+
+        Since $f$ is differentiable the relative condition number of $f$ is given by
+        $\kappa = \frac{\abs{f'(x)}}{\abs{f(x)}/\abs{x}}$.
+        For this problem
+        \begin{align*}
+            f'(x) &= \frac{\p{1 + e^{-x}}e^{-x} - \p{1 - e^{-x}}\p{-e^{-x}}}{\p{1 + e^{-x}}^2} \\
+                  &= \frac{e^{-x} + e^{-2x} + e^{-x} - e^{-2x}}{\p{1 + e^{-x}}^2} \\ 
+                  &= \frac{2e^{-x}}{\p{1 + e^{-x}}^2} \\ 
+        \end{align*}
+        Thus the relative condition number for this problem is
+        \begin{align*}
+            \kappa &= \frac{\abs{f'(x)}}{\abs{f(x)}/\abs{x}} \\
+            &= 
+        \end{align*}
+
 
     \item % #2
         Determine whether the calculation $f(x, y) = (1 + x)y^2$ is backward
