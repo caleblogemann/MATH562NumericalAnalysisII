@@ -521,7 +521,7 @@ Homework 3
                 equivalent to the solution found in part (a).
         \end{enumerate}
 
-    \item % #4
+    \item % #4 Done
         Let $A \in \CC^{m \times m}$ be nonsingular.
         Show that $A$ has an LU factorization if and only if for each $k$, such
         that $1 \le k \le m$, the upper left $(k \times k)$ block $A(1:k, 1:k)$
@@ -547,11 +547,128 @@ Homework 3
             is nonsingular.
 
             Now suppose that $A(1:k, 1:k)$ is nonsingular for $1 \le k \le m$.
+            This implies that $A(1, 1) \neq 0$, therefore Gaussian elimination
+            can be applied to the first column.
+            Gaussian Elimination row operations do not change the determinant of
+            a matrix.
+            Therefore $L_1 A$ still satisfies the property that $(L_1 A)(1:k, 1:k)$ is
+            nonsingular.
+            We can now conclude that $(L_1 A)(2,2) \neq 0$, because
+            $(L_1 A)(1:2, 1:2)$ is upper triangular and nonsingular.
+            Now Gaussian elimination can be applied to column 2.
+            As is evident mathematical induction now guarantees that an
+            Gaussian elimination will never fail and therefore $A$ has an $LU$
+            factorization.
 
+            To show that the $LU$ decomposition is unique assume there exists
+            another $LU$ decomposition of $A$, $\hat{L}\hat{U}$.
+            This implies that $LU = \hat{L}\hat{U}$, which is equivalent to
+            $L^{-1}\hat{L} = U^{-1}\hat{U}$.
+            $L^{-1}$ exists because $L$ has ones on the diagonal and it is lower
+            triangular.
+            $U^{-1}$ exists because $A$ is nonsingular and $\det{A} = \det{U}$.
+            Also $U^{-1}$ is upper triangular.
+            This implies that $L^{-1}\hat{L}$ is lower triangular and
+            $U^{-1}\hat{U}$ is upper triangular.
+            Therefore $L^{-1}\hat{L} = U^{-1}\hat{U}$ if and only if
+            $L^{-1}\hat{L} = I$ and $U^{-1}\hat{U} = I$.
+            Therefore $L = \hat{L}$ and $U = \hat{U}$, so the $LU$ decomposition
+            is unique.
         \end{proof}
 
-    \item % #5
+    \item % #5 Done
         Rank Deficient Least Squares Problem:
+        Let $A \in \RR^{m \times n}$ with $m \ge n$, and let $r = \rank(A) < n$.
+        The $SVD$ of $A$ can be written as
+        \[
+            A = [U_1, U_2]
+            \begin{bmatrix}
+                \Sigma_1 & 0 \\
+                0 & 0
+            \end{bmatrix}
+            \br{V_1, V_2}^T = U_1 \Sigma_1 V_1^T
+        \]
+        where $\Sigma_1$ is $r \times r$ nonsingular and $U_1$ and $V_1$ have
+        $r$ columns.
+        Let $\sigma = \sigma_{min}(\Sigma_1)$, be the smallest nonzero singular
+        value of $A$.
+        Consider the following rank deficient least squares problem, for some
+        $\v{b} \in \RR^m$.
+        \[
+            \min*_{\v{x} \in \RR^n} \norm[2]{A\v{x} - \v{b}}
+        \]
+        Show
+        \begin{enumerate}
+            \item[\#1] % Done
+                all solutions $\v{x}$ can be written as
+                $\v{x} = V_1 \Sigma_1^{-1} U_1^T \v{b} + V_2 \v{z}$
+                where $\v{z}$ is an arbitrary vector.
+
+                It is known that the solution to this problem is a vector $\v{x}$
+                such that $A\v{x}$ is the projection of $\v{b}$ onto the range of
+                $A$.
+                Using the singular value decomposition the projector onto the
+                range of $A$ is $U_1 U_1^T$.
+                Therefore we need to find solutions to the system
+                $A\v{x} = U_1 U_1^T \v{b}$.
+                I will replace $A$ with its full SVD decomposition.
+                \begin{align*}
+                    A\v{x} &= U_1 U_1^T \v{b} \\
+                    [U_1, U_2]
+                    \begin{bmatrix}
+                        \Sigma_1 & 0 \\
+                        0 & 0
+                    \end{bmatrix}
+                    \br{V_1, V_2}^T\v{x} &= U_1 U_1^T \v{b} \\
+                    \begin{bmatrix}
+                        \Sigma_1 & 0 \\
+                        0 & 0
+                    \end{bmatrix}
+                    \br{V_1, V_2}^T\v{x} &= \br{U_1, U_2}^T U_1 U_1^T \v{b} \\
+                    \begin{bmatrix}
+                        \Sigma_1 & 0 \\
+                        0 & 0
+                    \end{bmatrix}
+                    \br{V_1, V_2}^T\v{x} &= I_{mr} U_1^T \v{b}
+                    \intertext{Where $I_{mr}$ is the $m \times r$ matrix with
+                        ones on the main diagonal.}
+                    I_{rm}
+                    \begin{bmatrix}
+                        \Sigma_1 & 0 \\
+                        0 & 0
+                    \end{bmatrix}
+                    \br{V_1, V_2}^T\v{x} &= U_1^T \v{b}
+                    \intertext{If $m > r$ than $I_{rm} I_{mr} = I_{rr}$.}
+                    \br{\Sigma_1, 0} \br{V_1, V_2}^T\v{x} &= U_1^T \v{b} \\
+                    \p{\Sigma_1 V_1^T + 0 V_2^T} \v{x} &= U_1^T \v{b} \\
+                    \p{V_1^T + 0 V_2^T} \v{x} &= \Sigma_1^{-1} U_1^T \v{b} \\
+                    \p{I + V_1 0 V_2^T} \v{x} &= V_1 \Sigma_1^{-1} U_1^T \v{b} \\
+                    \intertext{Any portion $\v{x}$ that is orthogonal to $V_2$
+                        will be lost as well so an arbitrary linear combination
+                        can be added to $\v{x}$.}
+                    \v{x} &= V_1 \Sigma_1^{-1} U_1^T \v{b} + V_2 \v{z}
+                \end{align*}
+
+            \item[\#2] % Done
+                The solution $\v{x}$ has minimal norm $\norm[2]{\v{x}}$ when
+                $\v{z} = \v{0}$, and in this case
+                $\norm[2]{\v{x}} \le \norm[2]{\v{b}}/\sigma$.
+
+                From part 1 we can see that
+                \begin{align*}
+                    \norm[2]{\v{x}} &= \norm[2]{V_1 \Sigma_1^{-1} U_1^T \v{b} + V_2 \v{z}} \\
+                    \intertext{This norm is minimized when $\v{z} = \v{0}$}
+                    &= \norm[2]{V_1 \Sigma_1^{-1} U_1^T \v{b}} \\
+                    &\le \norm[2]{V_1 \Sigma_1^{-1} U_1^T} \norm[2]{\v{b}}
+                    \intertext{Note that $V_1 \Sigma_1^{-1} U_1^T$ is the SVD
+                        of some other matrix, whose singular values are the
+                        reciprocals of the singular values of $A$.
+                        Therefore the 2-norm of this matrix is $1/\sigma$.}
+                    &= \frac{\norm[2]{\v{b}}}{\sigma}
+                \end{align*}
+                Thus $\norm[2]{\v{x}} \le \norm[2]{\v{b}}/\sigma$ for the case
+                when $\v{z} = \v{0}$.
+        \end{enumerate}
 
     \item % #6 Done
         Consider the matrix
@@ -586,7 +703,7 @@ Homework 3
                         0
                     \end{bmatrix} \\
                     r_{12} &= q_1^* a_2 \\
-                    &= 2/\sqrt{2} = \sqrt{2}
+                    &= 2/\sqrt{2} = \sqrt{2} \\
                     v_2 &= v_2 - r_{12}q_1 \\
                     &= 
                     \begin{bmatrix}
@@ -732,7 +849,7 @@ Homework 3
                 least squares problem.
         \end{enumerate}
 
-    \item % #7
+    \item % #7 Done
         Consider the least-square problem $\min*_{\v{x}}\norm[2]{A\v{x} - b}$,
         where $A$ is the first 5 columns of the $6 \times 6$ inverse Hilbert
         matrix and
@@ -801,6 +918,21 @@ ans =
     SVD                                             1.2091e-10
                 \end{verbatim}
 
+                Note that the error for all of these methods is reasonably small.
+                Some methods do have error signigicantly larger than the other
+                methods.
+                The modified Gram-Schmidt and Normal equations error is several
+                orders of magnitude larger than the rest of the methods.
+                The normal equations have much larger error because this approach is
+                unstable.
+                Also the accuracy of the normal equations approach is governed
+                by $\kappa^2$ which will be larger than $\kappa$.
+                The Modified Gram-Schmidt method is also unstable, unless the
+                augmented matrix approach is taken.
+                This is the reason that the error for the Modified Gram-Schmidt
+                is large, while the Modified Gram-Schmidt of the augmented matrix
+                produces lower error.
+                The augmented matrix version is stable.
         \end{enumerate}
 
 \end{enumerate}
