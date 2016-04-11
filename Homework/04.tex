@@ -141,13 +141,13 @@ Homework 4
                     \end{bmatrix}
                 \]
                 The eigenvalues can be found by using the characteristic
-                polynomial, that is $p(z) = \det(zI - A)$.
+                polynomial, that is $p(z) = \det(zI - A^T A)$.
                 \begin{align*}
-                    \det(zI - A) &=
+                    \det(zI - A^T A) &=
                     \begin{vmatrix}
-                        z - 3 &    -1 &     0 \\
-                           -1 & z - 2 &    -1 \\
-                            0 &    -1 & z - 3
+                        z - 3 &    1 &     0 \\
+                           1 & z - 2 &    1 \\
+                            0 &    1 & z - 3
                     \end{vmatrix} \\
                     &= (z - 3)^2(z - 2) - (z - 3) - (z - 3) \\
                     &= (z - 3)((z - 3)(z - 2) - 2) \\
@@ -157,8 +157,209 @@ Homework 4
                 The eigenvalues are the zeros of the characteristic polynomial,
                 therefore $\spec(A) = \set{1, 3, 4}$.
 
+                The eigenvectors of $A^T A$ can be found by solving the following systems
+                \begin{align*}
+                    (I - A^T A)\v{x} &= \v{0} \\
+                    (3I - A^T A)\v{x} &= \v{0} \\
+                    (4I - A^T A)\v{x} &= \v{0} \\
+                \end{align*}
+
+                First I will solve $(I - A^T A)\v{x} = \v{0}$ using the
+                augmented system.
+                \begin{align*}
+                    \begin{bmatrix}
+                        -2 &  1 &  0 & 0 \\
+                         1 & -1 &  1 & 0 \\
+                         0 &  1 & -2 & 0
+                    \end{bmatrix} \\
+                    \begin{bmatrix}
+                         1 & -1/2 &  0 & 0 \\
+                         1 & -1 &  1 & 0 \\
+                         0 &  1 & -2 & 0
+                    \end{bmatrix} \\
+                    \begin{bmatrix}
+                         1 & -1/2 &  0 & 0 \\
+                         0 & -1/2 &  1 & 0 \\
+                         0 &  1 & -2 & 0
+                    \end{bmatrix} \\
+                    \begin{bmatrix}
+                         1 & -1/2 & 0 & 0 \\
+                         0 & 1 & -2 & 0 \\
+                         0 & 1 & -2 & 0
+                    \end{bmatrix} \\
+                    \begin{bmatrix}
+                         1 & -1/2 &  0 & 0 \\
+                         0 & 1 & -2 & 0 \\
+                         0 & 0 & 0 & 0
+                    \end{bmatrix} \\
+                    \begin{bmatrix}
+                         1 & 0 & -1 & 0 \\
+                         0 & 1 & -2 & 0 \\
+                         0 & 0 &  0 & 0
+                    \end{bmatrix} \\
+                \end{align*}
+                Thus the solutions to this system are of the form
+                \begin{align*}
+                    \begin{bmatrix}
+                        x \\
+                        2x \\
+                        x
+                    \end{bmatrix}
+                \end{align*}
+                The eigenvector with 2-norm equal to one for eigenvalue 1 is
+                \begin{align*}
+                    \begin{bmatrix}
+                        1/\sqrt{6} \\
+                        2/\sqrt{6} \\
+                        1/\sqrt{6}
+                    \end{bmatrix}
+                \end{align*}
+
+                The eigenvector vector for eigenvalue 3 can be found as
+                \begin{align*}
+                    \begin{bmatrix}
+                        0 & 1 & 0 & 0 \\
+                        1 & 1 & 1 & 0 \\
+                        0 & 1 & 0 & 0
+                    \end{bmatrix} \\
+                    \begin{bmatrix}
+                        1 & 1 & 1 & 0 \\
+                        0 & 1 & 0 & 0 \\
+                        0 & 1 & 0 & 0
+                    \end{bmatrix} \\
+                    \begin{bmatrix}
+                        1 & 1 & 1 & 0 \\
+                        0 & 1 & 0 & 0 \\
+                        0 & 0 & 0 & 0
+                    \end{bmatrix} \\
+                    \begin{bmatrix}
+                        1 & 0 & 1 & 0 \\
+                        0 & 1 & 0 & 0 \\
+                        0 & 0 & 0 & 0
+                    \end{bmatrix} \\
+                \end{align*}
+                Thus the solutions to this system are of the form
+                \begin{align*}
+                    \begin{bmatrix}
+                        x \\
+                        0 \\
+                        -x
+                    \end{bmatrix}
+                \end{align*}
+                The eigenvector with 2-norm equal to one for eigenvalue 3 is
+                \begin{align*}
+                    \begin{bmatrix}
+                        1/\sqrt{2} \\
+                        0 \\
+                        -1/\sqrt{2}
+                    \end{bmatrix}
+                \end{align*}
+
+                Lastly the eigenvector for eigenvalue 4 is needed.
+                \begin{align*}
+                    \begin{bmatrix}
+                        1 & 1 & 0 & 0 \\
+                        1 & 2 & 1 & 0 \\
+                        0 & 1 & 1 & 0
+                    \end{bmatrix} \\
+                    \begin{bmatrix}
+                        1 & 1 & 0 & 0 \\
+                        0 & 1 & 1 & 0 \\
+                        0 & 1 & 1 & 0
+                    \end{bmatrix} \\
+                    \begin{bmatrix}
+                        1 & 1 & 0 & 0 \\
+                        0 & 1 & 1 & 0 \\
+                        0 & 0 & 0 & 0
+                    \end{bmatrix} \\
+                    \begin{bmatrix}
+                        1 & 0 & -1 & 0 \\
+                        0 & 1 & 1 & 0 \\
+                        0 & 0 & 0 & 0
+                    \end{bmatrix} \\
+                \end{align*}
+                Thus the solutions to this system are of the form
+                \begin{align*}
+                    \begin{bmatrix}
+                        x \\
+                        -x \\
+                        x
+                    \end{bmatrix}
+                \end{align*}
+                The eigenvector with 2-norm equal to one for eigenvalue 3 is
+                \begin{align*}
+                    \begin{bmatrix}
+                        1/\sqrt{3} \\
+                        -1/\sqrt{3} \\
+                        1/\sqrt{3}
+                    \end{bmatrix}
+                \end{align*}
+
+                Thus the eigenvalue decomposition of $A^T A$ is
+                \begin{align*}
+                    A^T A &= X \Lambda X' \\
+                    X &=
+                    \begin{bmatrix}
+                        1/\sqrt{6} & 1/\sqrt{2}  & 1/\sqrt{3} \\
+                        2/\sqrt{6} & 0           & -1/\sqrt{3} \\
+                        1/\sqrt{6} & -1/\sqrt{2} & 1/\sqrt{3}
+                    \end{bmatrix} \\
+                    \Lambda &=
+                    \begin{bmatrix}
+                        1 & 0 & 0 \\
+                        0 & 3 & 0 \\
+                        0 & 0 & 4
+                    \end{bmatrix}
+                \end{align*}
+
             \item[(b)]
                 Use your results in (a) to compute (by hand) the SVD of $A$.
+
+                The singular values of $A$ are the nonnegative square roots of
+                the eigenvalues of $A^T A$.
+                Thus if $A = U \Sigma V^T$ is a singular value decomposition of
+                $A$, then
+                \begin{align*}
+                    \Sigma &=
+                    \begin{bmatrix}
+                        1 & 0 & 0 \\
+                        0 & \sqrt{3} & 0 \\
+                        0 & 0 & 2
+                    \end{bmatrix} \\
+                    V &=
+                    \begin{bmatrix}
+                        1/\sqrt{6} & 1/\sqrt{2}  & 1/\sqrt{3} \\
+                        2/\sqrt{6} & 0           & -1/\sqrt{3} \\
+                        1/\sqrt{6} & -1/\sqrt{2} & 1/\sqrt{3}
+                    \end{bmatrix} \\
+                \end{align*}
+                The unitary matrix $U$ can be found by doing
+                Gram-Schmidt on the columns of $AV$.
+
+                \begin{align*}
+                    AV &=
+                    \begin{bmatrix}
+                        0 & -2/\sqrt{2} & 0 \\
+                        -1/\sqrt{6} & 1/\sqrt{2} & 2/\sqrt{3} \\
+                        1/\sqrt{6} & 1/\sqrt{2} & -2/\sqrt{3} \\
+                        2/\sqrt{6} & 0 & 2/\sqrt{3}
+                    \end{bmatrix} \\
+                    \v{u}_1 &= 
+                    \begin{bmatrix}
+                        0 \\
+                        -1/\sqrt{6} \\
+                        1/\sqrt{6} \\
+                        2/\sqrt{6}
+                    \end{bmatrix} \\
+                    \v{u}_2 &= A\v{v}_2
+                    - \v{u}_1^T A\v{v}_2 \v{u}_1 \\
+                    \v{u}_2 &=
+                    \begin{bmatrix}
+                        0
+                    \end{bmatrix}
+                \end{align*}
+                
+                
 
             \item[(c)]
                 Find the $1$-, $2$-, $\infty$-, and Frobenius norms of $A$.
