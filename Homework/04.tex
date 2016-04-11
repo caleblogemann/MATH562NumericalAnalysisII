@@ -1,0 +1,180 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper]{geometry}
+\usepackage{MATH562}
+
+\begin{document}
+\noindent \textbf{\Large{Caleb Logemann \\
+MATH 562 Numerical Analysis II \\
+Homework 4
+}}
+
+%\lstinputlisting[language=Matlab]{H01_23.m}
+\begin{enumerate}
+    \item % #1
+        For each of the following, show that the statement is correct, or give
+        a counter-example. 
+        If nothing else is written, assume that $A \in \CC^{m \times m}$.
+        \begin{enumerate}
+            \item % Done
+                If $\lambda$ is an eigenvalue of $A$ and $\mu \in \CC$, then
+                $\lambda - \mu$ is an eigenvalue of $A - \mu I$.
+
+                Yes this is a true statement.
+                \begin{proof}
+                    Let $\v{x}$ be the eigenvector for the eigenvalue $\lambda$,
+                    that is $A\v{x} = \lambda \v{x}$.
+                    Thus
+                    \begin{align*}
+                        (A - \mu I)\v{x} &= A\v{x} - \mu I \v{x} \\
+                                         &= \lambda \v{x} - \mu \v{x} \\
+                                         &= (\lambda - \mu) \v{x}
+                    \end{align*}
+                    Therefore $\v{x}$ is an eigenvector of $A - \mu I$ and the
+                    corresponding eigenvalue is $\lambda - \mu$.
+                \end{proof}
+
+            \item % Done
+                If $A$ is real and $\lambda$ is an eigenvalue of $A$, then
+                $-\lambda$ is an eigenvalue of $A$.
+
+                This is false.
+                Consider the matrix
+                \[
+                    A =
+                    \begin{bmatrix}
+                        2 & 0 \\
+                        0 & 3 \\
+                    \end{bmatrix}.
+                \]
+                The eigenvalues of this matrix are $2$ and $3$, neither $-2$
+                nor $-3$ are eigenvalues.
+
+            \item
+                If $A$ is real and $\lambda$ is an eigenvalue of $A$, then
+                $\bar{\lambda}$ is an eigenvalue of $A$.
+
+            \item
+                If $\lambda$ is an eigenvalue of $A$ and $A$ is nonsingular, then
+                $\lambda^{-1}$ is an eigenvalue of $A^{-1}$.
+
+            \item % Done
+                If all the eigenvalues of $A$ are zero, than $A = 0$.
+
+                This is false.
+                Consider the matrix
+                \[
+                    A =
+                    \begin{bmatrix}
+                        0 & 1 \\
+                        0 & 0
+                    \end{bmatrix}.
+                \]
+                Both of the eigenvalues of this matrix are zero, however
+                $A \neq 0$.
+
+            \item
+                If $A$ is Hermitian and $\lambda$ is an eigenvalue of $A$
+
+            \item
+                If $A$ is diagonalizable and all eigenvalues are equal, then $A$
+                is diagonal.
+        \end{enumerate}
+
+    \item % #2
+        \begin{enumerate}
+            \item[(a)]
+                Let $A \in \CC^{m \times m}$ be tridiagonal and Hermitian, with
+                all of its subdiagonal and superdiagonal entries nonzero.
+                Prove that the eigenvalues of $A$ are distinct.
+
+                % Hint show that for any $\lambda \in \CC$, $A - \lambda I$ has
+                % rank at least m - 1.
+
+            \item[(b)]
+                Let $A$ be upper-Hessenberg, with all of its subdiagonal entries
+                nonzero.
+                Give an example that shows that the eigenvalues of $A$ are
+                not necessarily distinct.
+        \end{enumerate}
+
+    \item % #3
+        Suppose $A$ is $m \times m$ and has a complete set of orthonormal
+        eigenvectors, $\v{q}_1, \ldots, \v{q}_m$, and with corresponding
+        eigenvalues $\lambda_1, \ldots, \lambda_m$.
+        Assume that the ordering is such that
+        $\abs{\lambda_j} \ge \abs{\lambda_{j+1}}$.
+        Furthermore assume that
+        $\abs{\lambda_1} > \abs{\lambda_2} > \abs{\lambda_3}$.
+        Consider the artificial version of the power method
+        $\v{v}^{(k)} = A\v{v}^{(k-1)}/\lambda_1$ with
+        $\v{v}^{(0)} = \alpha_1 \v{q}_1 + \cdots + \alpha_m \v{q}_m$, where
+        $\alpha_1$ and $\alpha_2$ are both nonzero.
+        Show that the sequence converges linearly to $\alpha_1 \v{q}_1$ with
+        asymptotic constant $C = \abs{\lambda_2/\lambda_1}$.
+
+        \begin{proof}
+            
+        \end{proof}
+
+    \item % #4
+        Consider the matrix
+        \[
+            A =
+            \begin{bmatrix}
+                -1 &  0 &  1 \\
+                 1 & -1 &  0 \\
+                 0 &  1 & -1 \\
+                 1 &  0 &  1
+            \end{bmatrix}
+        \]
+        \begin{enumerate}
+            \item[(a)]
+                Calculate the eigenvalues and eigenvectors of $A^T A$
+
+                First we must compute the matrix, $A^T A$.
+                \[
+                    A^T A =
+                    \begin{bmatrix}
+                        3 & -1 & 0 \\
+                        -1 & 2 & -1 \\
+                        0 & -1 & 3
+                    \end{bmatrix}
+                \]
+                The eigenvalues can be found by using the characteristic
+                polynomial, that is $p(z) = \det(zI - A)$.
+                \begin{align*}
+                    \det(zI - A) &=
+                    \begin{vmatrix}
+                        z - 3 &    -1 &     0 \\
+                           -1 & z - 2 &    -1 \\
+                            0 &    -1 & z - 3
+                    \end{vmatrix} \\
+                    &= (z - 3)^2(z - 2) - (z - 3) - (z - 3) \\
+                    &= (z - 3)((z - 3)(z - 2) - 2) \\
+                    &= (z - 3)\p{z^2 - 5z + 4} \\
+                    &= (z - 3)(z - 4)(z - 1)
+                \end{align*}
+                The eigenvalues are the zeros of the characteristic polynomial,
+                therefore $\spec(A) = \set{1, 3, 4}$.
+
+            \item[(b)]
+                Use your results in (a) to compute (by hand) the SVD of $A$.
+
+            \item[(c)]
+                Find the $1$-, $2$-, $\infty$-, and Frobenius norms of $A$.
+        \end{enumerate}
+
+    \item % #5
+        Write a MATLAB function $[v, lam, k] = Pwr(A, v0)$ that uses the method
+        of power iteration to compute the largest eigenvalue, ``$lam$'', and a
+        corresponding eigenvector $v$ that has length one in the 2-norm.
+        The third argument returned, $k$, should be the number of iterations used in
+        the computation.
+        The input data is a square matrix $A$ and a starting vector $v0$.
+
+    \item % #6
+
+    \item % #7
+
+\end{enumerate}
+\end{document}
