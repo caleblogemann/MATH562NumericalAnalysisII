@@ -10,7 +10,7 @@ Homework 4
 
 %\lstinputlisting[language=Matlab]{H01_23.m}
 \begin{enumerate}
-    \item % #1
+    \item % #1 Done
         For each of the following, show that the statement is correct, or give
         a counter-example. 
         If nothing else is written, assume that $A \in \CC^{m \times m}$.
@@ -49,13 +49,36 @@ Homework 4
                 The eigenvalues of this matrix are $2$ and $3$, neither $-2$
                 nor $-3$ are eigenvalues.
 
-            \item
+            \item % Done
                 If $A$ is real and $\lambda$ is an eigenvalue of $A$, then
                 $\bar{\lambda}$ is an eigenvalue of $A$.
 
-            \item
+                \begin{proof}
+                    Let $A$ be real and let $\lambda$ be an eigenvalue of $A$.
+                    Thus there exists a nonzero eigenvector $\v{x}$ such that
+                    $A\v{x} = \lambda\v{x}$.
+                    Taking the complex conjugate of both sides results in
+                    $A\bar{\v{x}} = \bar{\lambda}\bar{\v{x}}$, since $A$ is
+                    real.
+                    Therefore $\bar{\lambda}$ is an eigenvalue of $A$.
+                \end{proof}
+
+            \item % Done
                 If $\lambda$ is an eigenvalue of $A$ and $A$ is nonsingular, then
                 $\lambda^{-1}$ is an eigenvalue of $A^{-1}$.
+
+                \begin{proof}
+                    Let $A$ be nonsingular and let $\lambda$ be an eigenvalue
+                    of $A$.
+                    Since $A$ is nonsingular $\lambda \neq 0$.
+                    There exists a nonzero eigenvector $\v{x}$ such that
+                    $A\v{x} = \lambda \v{x}$.
+                    Left multiplying by $A^{-1}$ results in
+                    $\v{x} = \lambda A^{-1} \v{x}$.
+                    Dividing by $\lambda$, shows that
+                    $A^{-1} \v{x} = \lambda^{-1} \v{x}$.
+                    Therefore $\lambda^{-1}$ is an eigenvalue of $A^{-1}$.
+                \end{proof}
 
             \item % Done
                 If all the eigenvalues of $A$ are zero, than $A = 0$.
@@ -72,16 +95,41 @@ Homework 4
                 Both of the eigenvalues of this matrix are zero, however
                 $A \neq 0$.
 
-            \item
+            \item % Done
                 If $A$ is Hermitian and $\lambda$ is an eigenvalue of $A$, then
                 $\lambda$ is a singular value of $A$.
 
-            \item
+                This is false.
+                If
+                \[
+                    A =
+                    \begin{bmatrix}
+                        1 & 0 & 0 \\
+                        0 & -2 & 0 \\
+                        0 & 0 & -2 \\
+                    \end{bmatrix}, 
+                \]
+                then $A$ is Hermition, the eigevalues of $A$ are $\set{1, -2, -2}$,
+                but the singular values of $A$ are $\set{1, 2, 2}$.
+                If $A$ is Hermitian than the singular values are the absolute
+                values of the eigenvalues.
+
+            \item % Done
                 If $A$ is diagonalizable and all eigenvalues are equal, then $A$
                 is diagonal.
+
+                \begin{proof}
+                    Let $A$ be diagonalizable with all eigenvalues equal.
+                    There exists some matrix $X$ such that $A = X\Lambda X^{-1}$.
+                    Since all of the eigenvalues of $A$ are the same,
+                    $\Lambda = \lambda I$.
+                    Therefore
+                    $A = X \lambda I X^{-1} = \lambda X X^{-1} = \lambda I$, so
+                    $A$ is diagonal.
+                \end{proof}
         \end{enumerate}
 
-    \item % #2
+    \item % #2 Done
         \begin{enumerate}
             \item[(a)] % Done
                 Let $A \in \CC^{m \times m}$ be tridiagonal and Hermitian, with
@@ -120,15 +168,28 @@ Homework 4
                     This implies that all eigenvalues are distinct.
                 \end{proof}
 
-            \item[(b)]
+            \item[(b)] % Done
                 Let $A$ be upper-Hessenberg, with all of its subdiagonal entries
                 nonzero.
                 Give an example that shows that the eigenvalues of $A$ are
                 not necessarily distinct.
 
+                One example of this is
+                \[
+                    A =
+                    \begin{bmatrix}
+                        3 & 3 & 0 \\
+                        3 & 3 & 3 \\
+                        0 & -3 & 3
+                    \end{bmatrix}
+                \]
+                This matrix is upper-Hessenberg, but all of the eigenvalues of
+                $A$ are 3.
+                One reason this is possible is that the geometric multiplicity of
+                this eigenvalue is 1, not 3.
         \end{enumerate}
 
-    \item % #3
+    \item % #3 Done
         Suppose $A$ is $m \times m$ and has a complete set of orthonormal
         eigenvectors, $\v{q}_1, \ldots, \v{q}_m$, and with corresponding
         eigenvalues $\lambda_1, \ldots, \lambda_m$.
@@ -144,7 +205,32 @@ Homework 4
         asymptotic constant $C = \abs{\lambda_2/\lambda_1}$.
 
         \begin{proof}
-            
+            First note that 
+            \begin{align*}
+                \v{v}^{(k)} &= \frac{A\v{v}^{(k-1)}}{\lambda_1} \\
+                            &= \frac{A^k \v{v}^{(0)}}{\lambda_1^k} \\
+                            &= \frac{A^k}{\lambda_1^k} \p{\alpha_1 \v{q}_1 + \cdots + \alpha_m \v{q}_m} \\
+                            &= \frac{1}{\lambda_1^k} \p{\alpha_1 A^k \v{q}_1 + \cdots + \alpha_m A^k \v{q}_m}
+                \intertext{Since the vectors $\v{q}_i$ are eigenvectors of $A$.}
+                            &= \frac{1}{\lambda_1^k} \p{\alpha_1 \lambda_1^k \v{q}_1 + \cdots + \alpha_m \lambda_m^k \v{q}_m} \\
+                            &= \alpha_1 \v{q}_1 + \alpha_2 \p{\frac{\lambda_2}{\lambda_1}}^k \v{q}_2 + \cdots + \alpha_m \p{\frac{\lambda_m}{\lambda_1}}^k \v{q}_m \\
+            \end{align*}
+            Since $\abs{\lambda_1} > \abs{\lambda_i}$ for $2 \le i \le m$,
+            $\abs{\frac{\lambda_i}{\lambda_1}} < 1$.
+            This means that as $k \to \infty$,
+            $\p{\frac{\lambda_i}{\lambda_1}}^k \to 0$ and
+            $\v{v}^{(k)} \to \alpha_1 \v{q}_1$.
+            To see how quickly $\v{v}^{(k)}$ is converging to $\alpha_1 \v{q}_1$,
+            consider $\abs{\v{v}^{(k)} - \alpha_1 \v{q}_1}$.
+            From the previous work we know that
+            \begin{align*}
+                \norm{\v{v}^{(k)} - \alpha_1 \v{q}_1} &= \norm{\alpha_2 \p{\frac{\lambda_2}{\lambda_1}}^k \v{q}_2 + \cdots + \alpha_m \p{\frac{\lambda_m}{\lambda_1}}^k \v{q}_m}
+                \intertext{Since $\abs{\lambda_2} > \abs{\lambda_i}$ for
+                    $3 \le i \le m$}
+                \norm{\v{v}^{(k)} - \alpha_1 \v{q}_1} &\le \abs{\frac{\lambda_2}{\lambda_1}}^k \norm{\alpha_2 \v{q}_2 + \cdots + \alpha_m \v{q}_m} \\
+            \end{align*}
+            This shows that $\v{v}^{(k)}$ is convergin to $\alpha_1 \v{q}_1$
+            linearly with coefficient $\abs{\frac{\lambda_2}{\lambda_1}}$.
         \end{proof}
 
     \item % #4 Done
