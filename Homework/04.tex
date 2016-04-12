@@ -83,7 +83,7 @@ Homework 4
 
     \item % #2
         \begin{enumerate}
-            \item[(a)]
+            \item[(a)] % Done
                 Let $A \in \CC^{m \times m}$ be tridiagonal and Hermitian, with
                 all of its subdiagonal and superdiagonal entries nonzero.
                 Prove that the eigenvalues of $A$ are distinct.
@@ -91,11 +91,41 @@ Homework 4
                 % Hint show that for any $\lambda \in \CC$, $A - \lambda I$ has
                 % rank at least m - 1.
 
+                \begin{proof}
+                    Let $A \in \CC^{m \times m}$ be tridiagonal and Hermitian,
+                    with all subdiagonal and superdiagonal entries nonzero.
+                    Let $\lambda$ be a eigenvalue of $A$, that is
+                    $A\v{x} = \lambda \v{x}$ for some nonzero vector $\v{x}$.
+                    Consider the matrix $A - \lambda I$.
+                    Since $\lambda$ is an eigenvalue of $A$, this matrix is
+                    singular, that is $\rank(A - \lambda I) \le m - 1$.
+                    Now consider any $(m - 1) \times (m - 1)$ principal
+                    submatrix of $A - \lambda I$.
+                    This submatrix will be diagonal, with all diagonal entries
+                    nonzero, because $A - \lambda I$ is tridiagonal with all
+                    subdiagonal and superdiagonal entries nonzero.
+                    This implies that the submatrix is nonsingular, hence has a
+                    rank of $m-1$.
+                    This implies that $\rank(A - \lambda I) \ge m - 1$.
+                    Therefore $\rank(A - \lambda I) = m-1$.
+                    The geometric multiplicity of the eigenvalue $\lambda$ is
+                    equal to the dimension of the nullspace of $A - \lambda I$.
+                    The rank-nullity theorem now states that the dimension of
+                    the nullspace of $A - \lambda I$ is 1, therefore the
+                    geometric multiplicity of all eigenvalues is 1.
+                    For Hermitian matrices the geometric multiplicity and
+                    algebraic multiplicity of eigenvalues are equivalent,
+                    therefore the algebraic multiplicities of all the
+                    eigenvalues of $A$ are 1.
+                    This implies that all eigenvalues are distinct.
+                \end{proof}
+
             \item[(b)]
                 Let $A$ be upper-Hessenberg, with all of its subdiagonal entries
                 nonzero.
                 Give an example that shows that the eigenvalues of $A$ are
                 not necessarily distinct.
+
         \end{enumerate}
 
     \item % #3
