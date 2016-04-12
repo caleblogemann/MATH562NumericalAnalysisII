@@ -73,7 +73,8 @@ Homework 4
                 $A \neq 0$.
 
             \item
-                If $A$ is Hermitian and $\lambda$ is an eigenvalue of $A$
+                If $A$ is Hermitian and $\lambda$ is an eigenvalue of $A$, then
+                $\lambda$ is a singular value of $A$.
 
             \item
                 If $A$ is diagonalizable and all eigenvalues are equal, then $A$
@@ -116,7 +117,7 @@ Homework 4
             
         \end{proof}
 
-    \item % #4
+    \item % #4 Done
         Consider the matrix
         \[
             A =
@@ -128,7 +129,7 @@ Homework 4
             \end{bmatrix}
         \]
         \begin{enumerate}
-            \item[(a)]
+            \item[(a)] % Done
                 Calculate the eigenvalues and eigenvectors of $A^T A$
 
                 First we must compute the matrix, $A^T A$.
@@ -312,7 +313,7 @@ Homework 4
                     \end{bmatrix}
                 \end{align*}
 
-            \item[(b)]
+            \item[(b)] % Done
                 Use your results in (a) to compute (by hand) the SVD of $A$.
 
                 The singular values of $A$ are the nonnegative square roots of
@@ -333,39 +334,37 @@ Homework 4
                         1/\sqrt{6} & -1/\sqrt{2} & 1/\sqrt{3}
                     \end{bmatrix} \\
                 \end{align*}
-                The unitary matrix $U$ can be found by doing
-                Gram-Schmidt on the columns of $AV$.
-
+                The unitary matrix $U$ can be found by solving the system
+                $U\Sigma = AV$, for $U$ unitary.
+                Since $\Sigma$ is invertible, $U = AV\Sigma^{-1}$
                 \begin{align*}
-                    AV &=
+                    U &=
                     \begin{bmatrix}
-                        0 & -2/\sqrt{2} & 0 \\
-                        -1/\sqrt{6} & 1/\sqrt{2} & 2/\sqrt{3} \\
-                        1/\sqrt{6} & 1/\sqrt{2} & -2/\sqrt{3} \\
-                        2/\sqrt{6} & 0 & 2/\sqrt{3}
-                    \end{bmatrix} \\
-                    \v{u}_1 &= 
-                    \begin{bmatrix}
-                        0 \\
-                        -1/\sqrt{6} \\
-                        1/\sqrt{6} \\
-                        2/\sqrt{6}
-                    \end{bmatrix} \\
-                    \v{u}_2 &= A\v{v}_2
-                    - \v{u}_1^T A\v{v}_2 \v{u}_1 \\
-                    \v{u}_2 &=
-                    \begin{bmatrix}
-                        0
+                        0 & -2/\sqrt{6} & 0 \\
+                        -1/\sqrt{6} & 1/\sqrt{6} & 1/\sqrt{3} \\
+                        1/\sqrt{6} & 1/\sqrt{6} & -1/\sqrt{3} \\
+                        2/\sqrt{6} & 0 & 1/\sqrt{3} \\
                     \end{bmatrix}
                 \end{align*}
-                
-                
 
-            \item[(c)]
+            \item[(c)] % Done
                 Find the $1$-, $2$-, $\infty$-, and Frobenius norms of $A$.
+
+                The $1$-norm of a matrix is the maximum absolute column sum.
+                Therefore $\norm[1]{A} = 3$.
+
+                The $2$-norm of a matrix is the maximum singular value.
+                Therefore $\norm[2]{A} = 2$.
+
+                The $\infty$-norm of a matrix is the maximum absolute row sum.
+                Therefore $\norm[\infty]{A} = 2$.
+
+                The Frobenius norm of a matrix is the squareroot of the sum of
+                the squares of the entries.
+                Therefore $\norm[F]{A} = \sqrt{8} = 2\sqrt{2}$.
         \end{enumerate}
 
-    \item % #5
+    \item % #5 Done
         Write a MATLAB function $[v, lam, k] = Pwr(A, v0)$ that uses the method
         of power iteration to compute the largest eigenvalue, ``$lam$'', and a
         corresponding eigenvector $v$ that has length one in the 2-norm.
@@ -373,9 +372,159 @@ Homework 4
         the computation.
         The input data is a square matrix $A$ and a starting vector $v0$.
 
-    \item % #6
+        \lstinputlisting[language=Matlab]{Pwr1.m}
+        \lstinputlisting[language=Matlab]{Pwr2.m}
+        \lstinputlisting[language=Matlab, lastline=12]{H04.m}
 
-    \item % #7
+        For the first data set, the second criterion worked much better.
+        In fact the first criterion didn't even converge fully.
+        The first criterion stopped at 500 iterations.
+        \begin{verbatim}
+v1 =
+
+    1.0000
+    0.0000
+    0.0000
+    0.0000
+    0.0000
+
+
+lam1 =
+
+    -4
+
+
+k1 =
+
+   500
+
+
+v2 =
+
+    1.0000
+    0.0000
+    0.0000
+    0.0000
+    0.0000
+
+
+lam2 =
+
+   -4.0000
+
+
+k2 =
+
+    28
+    \end{verbatim}
+    For the second data set the second criterion worked only slightly better.
+    This may be because the eigenvalues are more spread out in the second
+    data set.
+    \begin{verbatim}
+v1 =
+
+    1.0000
+    0.0000
+    0.0000
+    0.0000
+   -0.0000
+
+
+lam1 =
+
+    9.0000
+
+
+k1 =
+
+   161
+
+
+v2 =
+
+    1.0000
+   -0.0000
+   -0.0000
+   -0.0000
+    0.0000
+
+
+lam2 =
+
+    9.0000
+
+
+k2 =
+
+   158
+        \end{verbatim}
+
+    \item % #6 Done
+        The function for the Inverse iteration is shown below
+        \lstinputlisting[language=Matlab]{Inv.m}
+        \lstinputlisting[language=Matlab, firstline=14, lastline=17]{H04.m}
+
+        This method converged extremely fast, much faster than the power
+        iteration.
+        I think that each iteration may be more work, than an iteration of the
+        Power iteration, because the Inverse iteration requires solving a linear
+        system.
+        That being said the additional knowledge of approximately the eigenvalue
+        allows for faster convergence.
+        \begin{verbatim}
+v =
+
+    1.0000
+    0.0000
+    0.0000
+    0.0000
+    0.0000
+
+
+lam =
+
+    9.0000
+
+
+k =
+
+     8
+        \end{verbatim}
+
+    \item % #7 Done
+        The function for the Rayleigh quotient iteration is shown below
+        \lstinputlisting[language=Matlab]{Ray.m}
+        \lstinputlisting[language=Matlab, firstline=19]{H04.m}
+
+        The Rayleigh quotient iteration is the most efficient
+        algorithm so far and it is able to find any eigenvalue
+        eigenvector pair.
+        This algorithm will locate whatever eigenvalue whose eigenvector
+        is closest to the initial input vector.
+        Trying all sorts of different input vectors results in different
+        eigenvalue/eigenvector pairs being found.
+        Each time the algorithm converges extremely quickly.
+        The number of iterations is always in the single digits.
+        Below is a sample result.
+        \begin{verbatim}
+v =
+
+   -0.0482
+    0.9988
+    0.0000
+    0.0000
+    0.0000
+
+
+lam =
+
+    2.0000
+
+
+k =
+
+     6
+        \end{verbatim}
 
 \end{enumerate}
 \end{document}
