@@ -1,0 +1,91 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper]{geometry}
+\usepackage{MATH562}
+
+\begin{document}
+\noindent \textbf{\Large{Caleb Logemann \\
+MATH 562 Numerical Analysis II \\
+Final Exam
+}}
+
+%\lstinputlisting[language=Matlab]{H01_23.m}
+\begin{enumerate}
+    \item % #1
+        Let $A \in \RR^{m \times m}$ be written in the form $A = L + D + U$,
+        where $L$ is strictly lower triangular, $D$ is the diagonal of $A$, and $U$
+        is the strictly upper triangular part of $A$.
+        Assuming $D$ is invertible, $A\v{x} = \v{b}$ is equivalent to
+        $\v{x} = -D^{-1}\p{L + U}\v{x} + D^{-1}\v{b}$.
+        The Jacobi iteration method for solving $A\v{x} = \v{b}$ is defined by
+        \[
+            \v{x}^{n+1} = -D^{-1}\p{L + U}\v{x}^{n} + D^{-1}\v{b}
+        \]
+        Show that if $A$ is nonsingular and strictly row diagonally dominant:
+        \[
+            0 < \sum{j \neq i}{}{\abs{a_{ij}}} < \abs{a_{ii}}
+        \]
+        then the Jacobi iteration converges to $\v{x}_* = A^{-1}\v{b}$ for each
+        fixed $\v{b} \in \RR^m$.
+        % Hint: the infinity norm is a convenient one to use
+
+        \begin{proof}
+            
+        \end{proof}
+
+    \item % #2
+        Let $A \in \RR^{m \times m}$ be symmetric positive definite (SPD),
+        $\v{b} \in \RR^m$ and define $\phi:\RR^m \to \RR$ by
+        \[
+            \phi(\v{x}) = \frac{1}{2}\v{x}^T A \v{x} - \v{x}^T \v{b}
+        \]
+        Suppose $K$ is a subspace of $\RR^m$.
+        Show that $\hat{\v{x}} \in K$ minimizes $\phi(\v{x})$ over $K$ if and
+        only if $\nabla \phi(\hat{\v{x}}) \perp K$.
+
+        \begin{proof}
+            
+        \end{proof}
+
+    \item % #3
+
+    \item % #4
+        Let $A \in \RR^{n \times n}$ be a symmetric positive definite matrix.
+        Let Gaussian elimination be carried out on $A$ without pivoting.
+        After $k$ steps, $A$ will be reduced to the form
+        \[
+            A^{(k)} =
+            \begin{pmatrix}
+                A_{11}^{(k)} & A_{12}^{(k)} \\
+                0            & A_{22}^{(k)} \\
+            \end{pmatrix}
+        \]
+        where $A_{22}^{(k)}$ is an $(n - k) \times (n - k)$ matrix.
+        Show by induction
+        \begin{enumerate}
+            \item[(a)]
+                $A_{22}^{(k)}$ is symmetric positive definite.
+
+                \begin{proof}
+                    
+                \end{proof}
+
+            \item[(b)]
+                $a_{ii}^{(k)} \le a_{ii}^{(k-1)}$ for all $k \le i \le n$,
+                $k = 1, \cdots, n - 1$.
+
+                \begin{proof}
+                    
+                \end{proof}
+        \end{enumerate}
+
+    \item % #5
+
+
+    \item % #6
+    \item % #7
+    \item % #8
+    \item % #9
+    \item % #10
+
+\end{enumerate}
+\end{document}
