@@ -10,7 +10,7 @@ Final Exam
 
 %\lstinputlisting[language=Matlab]{H01_23.m}
 \begin{enumerate}
-    \item % #1
+    \item % #1 Done
         Let $A \in \RR^{m \times m}$ be written in the form $A = L + D + U$,
         where $L$ is strictly lower triangular, $D$ is the diagonal of $A$, and $U$
         is the strictly upper triangular part of $A$.
@@ -18,7 +18,7 @@ Final Exam
         $\v{x} = -D^{-1}\p{L + U}\v{x} + D^{-1}\v{b}$.
         The Jacobi iteration method for solving $A\v{x} = \v{b}$ is defined by
         \[
-            \v{x}^{n+1} = -D^{-1}\p{L + U}\v{x}^{n} + D^{-1}\v{b}
+            \v{x}^{(n+1)} = -D^{-1}\p{L + U}\v{x}^{(n)} + D^{-1}\v{b}
         \]
         Show that if $A$ is nonsingular and strictly row diagonally dominant:
         \[
@@ -29,7 +29,68 @@ Final Exam
         % Hint: the infinity norm is a convenient one to use
 
         \begin{proof}
-            
+            Let $\v{e}_n$ be the error of the nth iteration of the Jacobi iteration
+            from the actual solution, that is let
+            \[
+                \v{e}_n = \v{x}^{(n)} - \v{x}_*.
+            \]
+            The Jacobi iteration converges to the real solution if
+            \[
+                \lim{n \to \infty}{\norm[\infty]{\v{e}_n}} = 0 
+            \]
+            The error vector can be expressed recursively by noting that
+            $\v{x}^{(n)}$ is the Jacobi iteration evaluated on $\v{x}^{(n-1)}$
+            and that $\v{x}_*$ is a fixed point of the Jacobi iteration as it is
+            the true solution to the linear system.
+            This means that
+            \begin{align*}
+                \v{x}^{(n)} &= -D^{-1}\p{L + U}\v{x}^{(n-1)} + D^{-1}\v{b} \\ 
+                \v{x}_* &= -D^{-1}\p{L + U}\v{x}_* + D^{-1}\v{b}.
+            \end{align*}
+            Therefore we can express the error recursively as
+            \begin{align*}
+                \v{e}_n &= \v{x}^{(n)} - \v{x}_* \\
+                \v{e}_n &= \p{-D^{-1}\p{L + U}\v{x}^{(n-1)} + D^{-1}\v{b}} - \p{-D^{-1}\p{L + U}\v{x}_* + D^{-1}\v{b}} \\
+                \v{e}_n &= -D^{-1}\p{L + U}\v{x}^{(n-1)} + D^{-1}\p{L + U}\v{x}_* \\
+                \v{e}_n &= -D^{-1}\p{L + U}\p{\v{x}^{(n-1)} - \v{x}_*} \\
+                \v{e}_n &= -D^{-1}\p{L + U} \v{e}_{n-1}.
+                \intertext{Extrapolating this backwards we see that $\v{e}_n$
+                    can be expressed in terms of $\v{e}_0$}
+                \v{e}_n &= \p{-D^{-1}\p{L + U}}^n \v{e}_{0}.
+            \end{align*}
+            Now we can consider the limit of $\norm[\infty]{\v{e}_n}$ as $n$
+            goes to infinity.
+            \begin{align*}
+                \lim{n \to \infty}{\norm[\infty]{\v{e}_n}} &= \lim{n \to \infty}{\norm[\infty]{\p{-D^{-1}\p{L + U}}^n \v{e}_{0}}} \\
+                \lim{n \to \infty}{\norm[\infty]{\v{e}_n}} &\le \norm[\infty]{\v{e}_{0}} \lim{n \to \infty}{\norm[\infty]{D^{-1}\p{L + U}}^n}
+            \end{align*}
+            Now consider $\norm[\infty]{D^{-1}\p{L + U}}$.
+            The infinity norm is the max row sum of the matrix, that is
+            \[
+                \norm[\infty]{D^{-1}\p{L + U}} = \max*_{1 \le i \le m} \sum{j=1}{m}{\abs{\p{D^{-1}\p{L + U}}_{ij}}}
+            \]
+            Because $L + U = A - D$, $\p{L + U}_{ij} = a_{ij}$ if $i \neq j$ and $\p{L + U}_{ii} = 0$.
+            Also $D^{-1}$ is diagonal with $\p{D^{-1}}_{ii} = \frac{1}{D_{ii}} = \frac{1}{a_{ii}}$.
+            Therefore the matrix product $D^{-1}\p{L + U}$ has entries $\p{D^{-1}\p{L + U}}_{ij} = \frac{a_{ij}}{a_{ii}}$ if $i \neq j$ or 
+            if $i = j$, then $\p{D^{-1}\p{L + U}}_{ii} = 0$.
+            We can now say that
+            \begin{align*}
+                \norm[\infty]{D^{-1}\p{L + U}} &= \max*_{1 \le i \le m} \sum{j \neq k}{}{\abs{\frac{a_{ij}}{a_{ii}}}} \\
+                \norm[\infty]{D^{-1}\p{L + U}} &= \max*_{1 \le i \le m} \frac{1}{\abs{a_{ii}}} \sum{j \neq k}{}{\abs{a_{ij}}}
+                \intertext{However since $A$ is strictly row diagonally dominant $\abs{a_{ii}} > \sum{j \neq k}{}{\abs{a_{ij}}}$,
+                    we can conclude that $\frac{1}{\abs{a_{ii}}} \sum{j \neq k}{}{\abs{a_{ij}}} < 1$. Therefore}
+                \norm[\infty]{D^{-1}\p{L + U}} &< 1
+            \end{align*}
+            Since $\norm[\infty]{D^{-1}\p{L + U}} < 1$, it is true that
+            $\lim{n \to \infty}{\norm[\infty]{D^{-1}\p{L + U}}^n} = 0$.
+            Thus
+            \begin{align*}
+                \lim{n \to \infty}{\norm[\infty]{\v{e}_n}} &\le \norm[\infty]{\v{e}_{0}} \lim{n \to \infty}{\norm[\infty]{D^{-1}\p{L + U}}^n} \\
+                \lim{n \to \infty}{\norm[\infty]{\v{e}_n}} &\le 0
+            \end{align*}
+            This shows that the error converges to zero, and this proves that
+            the Jacobi iteration does converge to the true solution if $A$ is
+            strictly row diagonally dominant.
         \end{proof}
 
     \item % #2
