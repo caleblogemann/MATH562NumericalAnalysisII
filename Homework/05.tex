@@ -172,6 +172,28 @@ Final Exam
         
 
     \item % #10
+        MATLAB project
 
+        Below are the function for performing the 
+        Jacobi method, the Gauss-Seidel Method, and the Conjugate Gradient
+        method.
+        \lstinputlisting[language=Matlab]{Jacobi.m}
+        \lstinputlisting[language=Matlab]{GaussSeidel.m}
+        \lstinputlisting[language=Matlab]{ConjugateGradient.m}
+
+        The following script uses these three methods to solve the diffusion
+        equation $-u_{xx} = 1$ on $x \in \p{0, 1}$.
+        It also plots the residual against the number of iterations.
+        \lstinputlisting[language=Matlab]{H05.m}
+        \begin{center}
+            \includegraphics[scale=.7]{Figures/05_10_1.png}
+        \end{center}
+
+        We see in this plot that the Gauss-Seidel method converges much faster
+        than either the Jacobi method or the Conjugate Gradient method.
+        Looking at the slopes of these lines on the semilog plot, we can see that
+        the Gauss-Seidel method converges quadractically while the Jacobi and
+        Conjugate Gradient methods are converges linearly, this is visible because
+        the slopes of these lines are -2 and -1 respectively.
 \end{enumerate}
 \end{document}
