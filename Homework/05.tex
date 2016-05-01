@@ -150,8 +150,14 @@ Final Exam
         \]
         where $A_1$ is a nonsingular $n \times n$ matrix, and $A_2$ is an
         $(m - n) \times n$ arbitrary matrix.
+        \begin{enumerate}
+            \item[(a)]
 
-    \item % #6
+            \item[(b)]
+
+        \end{enumerate}
+
+    \item % #6 Done
         Let $A \in \CC^{m \times m}$ with $\rank(A) = r$.
         Suppose an SVD of $A$ is given by $A = U\Sigma V^*$, where
         $\v{u}_1, \v{u}_2, \ldots, \v{u}_m$ denote the columns of $U$ and
@@ -159,7 +165,61 @@ Final Exam
         Prove that $\langle\v{v}_{r+1}, \ldots, \v{v}_m\rangle = \null(A)$.
 
         \begin{proof}
-            
+            First let $\v{x} \in \langle\v{v}_{r+1}, \ldots, \v{v}_m\rangle$, then
+            $\v{x} = \sum{i = r+1}{m}{b_i \v{v}_i}$.
+            If we let $b_i = 0$ for $i = 1, 2, \ldots, r$ and $\v{b} = \br{b_i}$,
+            then $\v{x} = V\v{b}$.
+            Now consider $A\v{x}$.
+            \begin{align*}
+                A\v{x} &= U\Sigma V^* V \v{b} \\
+                       &= U \Sigma \v{b}
+            \end{align*}
+            However $\Sigma$ is a diagonal matrix with $\sigma_i$ along the
+            diagonal, so $\p{\Sigma \v{b}}_i = \sigma_i b_i$.
+            Since $A$ has $\rank(A) = r$, we know that $\sigma_i = 0$ for
+            $i \ge r + 1$.
+            Therefore if $1 \le i \le r$, then $\sigma_i b_i = 0$ because
+            $b_i = 0$.
+            If $r + 1 \le i \le m$, then $\sigma_i b_i = 0$ because
+            $\sigma_i = 0$.
+            Therefore we can conclude that $\Sigma \v{b} = \v{0}$
+            Thus $A\v{x} = \v{0}$ and $\v{x} \in \null(A)$.
+
+            Now assume that $\v{x} \in \null(A)$, that is $A\v{x} = \v{0}$.
+            \begin{align*}
+                A\v{x} &= \v{0} \\
+                U\Sigma V* \v{x} &= \v{0} \\
+                U^*U\Sigma V* \v{x} &= U^*\v{0} \\
+                \Sigma V* \v{x} &= \v{0} \\
+                \begin{bmatrix}
+                    \sigma_1 \v{v}_1^* \v{x} \\
+                    \cdots \\
+                    \sigma_r \v{v}_r^* \v{x} \\
+                    \sigma_{r+1} \v{v}_{r+1}^* \v{x} \\
+                    \cdots \\
+                    \sigma_m \v{v}_m^* \v{x}
+                \end{bmatrix}
+                &= \v{0}
+                \intertext{Since $\sigma_i = 0$ for $r + 1 \le i \le m$}
+                \begin{bmatrix}
+                    \sigma_1 \v{v}_1^* \v{x} \\
+                    \cdots \\
+                    \sigma_r \v{v}_r^* \v{x} \\
+                    0
+                    \cdots \\
+                    0
+                \end{bmatrix}
+                &= \v{0}
+            \end{align*}
+            This implies that $\v{v}_i^* \v{x} = 0$ for $1 \le i \le r$ since
+            $\sigma_i > 0$ for $1 \le i \le r$.
+            This is equivalent to $\v{x} \perp \v{v}_i$ for $1 \le i \le r$.
+            Hence $\v{x} \in \langle \v{v}_1, \cdots, \v{v}_r \rangle^{\perp}$.
+            Since $V$ is unitary
+            \[
+                \langle \v{v}_1, \cdots, \v{v}_r \rangle^{\perp} = \langle\v{v}_{r+1}, \ldots, \v{v}_m\rangle
+            \]
+            Thus $\v{x} \in \langle\v{v}_{r+1}, \ldots, \v{v}_m\rangle$.
         \end{proof}
 
     \item % #7
