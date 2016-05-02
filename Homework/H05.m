@@ -13,3 +13,4 @@ figure;
 semilogy(0:kGS, rGS, 'g', 0:kJ, rJ, 'b', 0:kCG, rCG, 'r');
 xlabel('Number of Iterations');
 ylabel('Infinity Norm of Residual');
+legend('Gauss-Seidel', 'Jacobi', 'Conjugate Gradient');

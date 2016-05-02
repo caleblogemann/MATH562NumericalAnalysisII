@@ -104,7 +104,50 @@ Final Exam
         only if $\nabla \phi(\hat{\v{x}}) \perp K$.
 
         \begin{proof}
-            
+            First let me describe $\nabla \phi(\v{x})$.
+            \begin{align*}
+                \nabla \phi(\v{x}) &=
+                \begin{bmatrix}
+                    \frac{\partial \phi}{\partial x_1} \\
+                    \cdots \\
+                    \frac{\partial \phi}{\partial x_m}
+                \end{bmatrix} \\
+                \frac{\partial \phi}{\partial x_i} &= \frac{\partial}{\partial x_i} \p{\frac{1}{2} \v{x}^T A \v{x} - \v{x}^T \v{b}} \\
+                &= \frac{\partial}{\partial x_i} \p{\frac{1}{2} \sum{j = 1}{m}{x_j \sum{k = 1}{m}{a_{jk} x_k}} - \sum{j = 1}{m}{x_{j} b_j}} \\
+                &= \frac{1}{2} \frac{\partial}{\partial x_i} \sum{j = 1}{m}{x_j \sum{k = 1}{m}{a_{jk} x_k}} - b_i \\
+                &= \frac{1}{2} \frac{\partial}{\partial x_i} \p{x_i \sum{k = 1}{m}{a_{ik} x_k} + \sum{j \neq i}{}{x_j \sum{k = 1}{m}{a_{jk} x_k}}} - b_i \\
+                &= \frac{1}{2} \p{\sum{k \neq i}{}{a_{ik} x_k} + 2a_{ii}x_i + \sum{j \neq i}{}{a_{ji} x_j}} - b_i \\
+                &= \frac{1}{2} \p{\sum{k = 1}{m}{a_{ik} x_k} + \sum{j =  1}{m}{a_{ji} x_j}} - b_i \\
+                &= \frac{1}{2} \p{\p{A\v{x}}_i + \p{A^T\v{x}}_i} - b_i
+                \intertext{This is one entry of the vector $\nabla \phi(\v{x})$ therefore we can write the entire vector as}
+                \nabla \phi(\v{x}) &= \frac{1}{2} \p{A\v{x} + A^T \v{x}} - \v{b}
+                \intertext{Since $A$ is symmetric, $A = A^T$, this symplifies to}
+                \nabla \phi(\v{x}) &= A\v{x} - \v{b}
+            \end{align*}
+
+            Now assume that $\nabla \phi(\hat{\v{x}}) \perp K$, therefore
+            $\v{x} \cdot \p{A\hat{\v{x}} - \v{b}} = 0$ for any $\v{x} \in K$.
+            Let $\v{x} \in K$, then $\v{x} = \hat{\v{x}} + \v{y}$ for some
+            $\v{y} \in K$.
+            \begin{align*}
+                \phi(\v{x}) &= \phi(\hat{\v{x}} + \v{y}) \\
+                &= \frac{1}{2}\p{\hat{\v{x}} + \v{y}}^T A \p{\hat{\v{x}} + \v{y}} - \p{\hat{\v{x}} + \v{y}}^T\v{b} \\
+                &= \frac{1}{2}\p{\hat{\v{x}}^T + \v{y}^T} A \p{\hat{\v{x}} + \v{y}} - \hat{\v{x}}^T\v{b} - \v{y}^T\v{b} \\
+                &= \frac{1}{2}\p{\hat{\v{x}}^TA + \v{y}^TA}\p{\hat{\v{x}} + \v{y}} - \hat{\v{x}}^T\v{b} - \v{y}^T\v{b} \\
+                &= \frac{1}{2}\p{\hat{\v{x}}^TA\hat{\v{x}} + \hat{\v{x}}^TA\v{y} + \v{y}^TA\hat{\v{x}} + \v{y}^TA\v{y}} - \hat{\v{x}}^T\v{b} - \v{y}^T\v{b}
+                \intertext{Note that $\hat{\v{x}}^TA\v{y} = \v{y}^TA^T\hat{\v{x}} = \v{y}^TA\hat{\v{x}}$ because $A$ is symmetric}
+                &= \frac{1}{2}\p{\hat{\v{x}}^TA\hat{\v{x}} + 2\v{y}^TA\hat{\v{x}} + \v{y}^TA\v{y}} - \hat{\v{x}}^T\v{b} - \v{y}^T\v{b} \\
+                &= \frac{1}{2}\hat{\v{x}}^TA\hat{\v{x}} - \hat{\v{x}}^T\v{b} + \v{y}^TA\hat{\v{x}} - \v{y}^T\v{b} + \frac{1}{2}\v{y}^TA\v{y} \\
+                &= \frac{1}{2}\hat{\v{x}}^TA\hat{\v{x}} - \hat{\v{x}}^T\v{b} + \v{y}^T\p{A\hat{\v{x}} - \v{b}} + \frac{1}{2}\v{y}^TA\v{y} 
+                \intertext{We know that $\nabla \phi(\hat{\v{x}}) \perp K$, therefore $\v{y}^T\p{A\hat{\v{x}} - \v{b}} = 0$}
+                &= \frac{1}{2}\hat{\v{x}}^TA\hat{\v{x}} - \hat{\v{x}}^T\v{b} + \frac{1}{2}\v{y}^TA\v{y} \\
+                &= \phi(\hat{\v{x}}) + \frac{1}{2}\v{y}^TA\v{y}
+                \intertext{Since $A$ is positive definite $\v{y}^TA\v{y} \ge 0$ and therefore}
+                \phi(\v{x}) \ge \phi(\hat{\v{x}})
+            \end{align*}
+            This $\hat{\v{x}}$ minimizes $\phi(\v{x})$ over $K$.
+
+            Now assume that $\hat{\v{x}}$ minimizes $\phi(\v{x})$ over $K$.
         \end{proof}
 
     \item % #3
@@ -151,10 +194,39 @@ Final Exam
         where $A_1$ is a nonsingular $n \times n$ matrix, and $A_2$ is an
         $(m - n) \times n$ arbitrary matrix.
         \begin{enumerate}
-            \item[(a)]
+            \item[(a)] % Done
+                What is the pseudo-inverse $A^+$ of $A$ such that $A^+ A = I_n$?
+                Express it explicitly in terms of $A_1$ and $A_2$.
+
+                The pseudo-inverse of $A$ is defined as
+                \[
+                    A^+ = (A^T A)^{-1} A^T
+                \]
+                Writing this in terms of $A_1$ and $A_2$ results in
+                \begin{align*}
+                    A^+ &=
+                    \p{\begin{pmatrix}
+                        A_1^T & A_2^T
+                    \end{pmatrix}
+                    \begin{pmatrix}
+                        A_1 \\
+                        A_2
+                    \end{pmatrix}}^{-1}
+                    \begin{pmatrix}
+                        A_1^T & A_2^T
+                    \end{pmatrix} \\
+                    &= \p{A_1^T A_1 + A_2^T A_2}^{-1}
+                    \begin{pmatrix}
+                        A_1^T & A_2^T
+                    \end{pmatrix}
+                \end{align*}
 
             \item[(b)]
+                Prove that $\norm[2]{A^+} \le \norm[2]{A_1^{-1}}$.
 
+                \begin{proof}
+                    
+                \end{proof}
         \end{enumerate}
 
     \item % #6 Done
@@ -231,7 +303,7 @@ Final Exam
     \item % #9
         
 
-    \item % #10
+    \item % #10 Done
         MATLAB project
 
         Below are the function for performing the 
@@ -250,10 +322,12 @@ Final Exam
         \end{center}
 
         We see in this plot that the Gauss-Seidel method converges much faster
-        than either the Jacobi method or the Conjugate Gradient method.
-        Looking at the slopes of these lines on the semilog plot, we can see that
-        the Gauss-Seidel method converges quadractically while the Jacobi and
-        Conjugate Gradient methods are converges linearly, this is visible because
-        the slopes of these lines are -2 and -1 respectively.
+        than the Jacobi method.
+        Both of these experience linear convergence, but Gauss-Seidel is a faster
+        linear convergence.
+        The Conjugate Gradient method converges much faster than either of the
+        stationary methods.
+        The Conjugate Gradient method converges in only 250 steps which is less
+        than $m = 500$, the size of the matrix.
 \end{enumerate}
 \end{document}
