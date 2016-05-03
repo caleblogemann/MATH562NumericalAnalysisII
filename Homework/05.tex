@@ -151,6 +151,56 @@ Final Exam
         \end{proof}
 
     \item % #3
+        Show that:
+        \begin{enumerate}
+            \item[(a)] % Done
+                (Forward error analysis)
+                \[
+                    \abs{fl(\v{x}^T \v{a}) - \v{x}^T \v{a}} \le n \epsilon_{machine} \abs{\v{x}}^T \abs{\v{a}} + O(\epsilon_{machine}^2)
+                \]
+                where $\v{x}$ and $\v{a}$ are n-dimensional floating point vectors and
+                $fl(\v{x}^T \v{a})$ represents the floating point computation of the dot
+                product.
+
+                \begin{proof}
+                    I will prove by induction.
+                    First consider the case when $n = 1$, then
+                    \begin{align*}
+                        \abs{fl(x a) - x a} &= \abs{x a (1 + \epsilon) - xa}
+                        \intertext{Where $\epsilon = \epsilon_{machine} + O(\epsilon_{machine}^2)$}
+                        &= \epsilon \abs{x} \abs{a} \\
+                        &= 1 \epsilon_{machine} \abs{x} \abs{a} + O(\epsilon_{machine}^2)
+                    \end{align*}
+                    Assume that
+                    \[
+                        \abs{fl(\v{x}^T \v{a}) - \v{x}^T \v{a}} \le n \epsilon_{machine} \abs{\v{x}}^T \abs{\v{a}} + O(\epsilon_{machine}^2)
+                    \]
+                    for $n = 1, 2, \ldots, k$.
+                    Now consider the case when $n = k+1$.
+                    In this case $\v{x} = \br{\v{x}_k, x_{k+1}}^T$ and
+                    $\v{a} = \br{\v{a}_k, a_{k+1}}^T$.
+                    \begin{align*}
+                        \abs{fl(\v{x}^T \v{a}) - \v{x}^T \v{a}} &= \abs{fl(\v{x}_k^T \v{a}_k + v_{k+1} a_{k+1}) - \v{x}_k^T \v{a}_k - v_{k+1} a_{k+1}} \\
+                        &= \abs{\p{fl(\v{x}_k^T \v{a}_k) + fl(v_{k+1} a_{k+1})}(1 + \epsilon) - \v{x}_k^T \v{a}_k - v_{k+1} a_{k+1}} \\
+                        &= \abs{fl(\v{x}_k^T \v{a}_k)(1 + \epsilon) - \v{x}_k^T \v{a}_k + fl(v_{k+1} a_{k+1})(1 + \epsilon) - v_{k+1} a_{k+1}} \\
+                        &\le \abs{fl(\v{x}_k^T \v{a}_k)(1 + \epsilon) - \v{x}_k^T \v{a}_k} + \abs{fl(v_{k+1} a_{k+1})(1 + \epsilon) - v_{k+1} a_{k+1}} \\
+                        &\le k \epsilon_{machine} \abs{\v{x}_k}^T \abs{\v{a}_k} + O(\epsilon_{machine}^2) + \abs{fl(v_{k+1} a_{k+1})(1 + \epsilon) - v_{k+1} a_{k+1}} \\
+                        &\le k \epsilon_{machine} \abs{\v{x}_k}^T \abs{\v{a}_k} + O(\epsilon_{machine}^2) + (\epsilon_{machine})\abs{v_{k+1}} \abs{a_{k+1}} + O(\epsilon_{machine}^2) \\
+                        &\le (k+1) \epsilon_{machine} \abs{\v{x}}^T \abs{\v{a}} + O(\epsilon_{machine}^2)\\
+                    \end{align*}
+                    Thus 
+                    \[
+                        \abs{fl(\v{x}^T \v{a}) - \v{x}^T \v{a}} \le n \epsilon_{machine} \abs{\v{x}}^T \abs{\v{a}} + O(\epsilon_{machine}^2)
+                    \]
+                    for all $n$.
+                \end{proof}
+
+            \item[(b)]
+
+            \item[(c)]  
+
+        \end{enumerate}
+
 
     \item % #4
         Let $A \in \RR^{n \times n}$ be a symmetric positive definite matrix.
@@ -182,7 +232,7 @@ Final Exam
                 \end{proof}
         \end{enumerate}
 
-    \item % #5
+    \item % #5 Done
         Let $A \in \RR^{m \times n}$ with $m > n$ and
         \[
             A = 
@@ -221,11 +271,35 @@ Final Exam
                     \end{pmatrix}
                 \end{align*}
 
-            \item[(b)]
+            \item[(b)] % Done
                 Prove that $\norm[2]{A^+} \le \norm[2]{A_1^{-1}}$.
 
                 \begin{proof}
-                    
+                    \begin{align*}
+                        \norm[2]{A^{+}} &= \sup_{\v{b}} \frac{\norm[2]{A^+\v{b}}}{\norm[2]{\v{b}}}
+                        \intertext{Let $P$ be the orthogonal projector onto the
+                            range of $A$, then because $P$ is unitary and the
+                            2-norm is unitarily invariant, $\norm[2]{\v{b}} = \norm[2]{P\v{b}}$.
+                            Therefore}
+                        \norm[2]{A^{+}} &= \sup_{\v{b}} \frac{\norm[2]{A^+\v{b}}}{\norm[2]{P\v{b}}}.
+                        \intertext{Now considering the least squares problem
+                            $\min*_{\v{x}}\norm[2]{A\v{x} - b}$, we know
+                            that $A^+\v{b} = \v{x}$ and $P\v{b} = A\v{x}$.
+                            Therefore}
+                        \norm[2]{A^+} &= \sup_{\v{x}} \frac{\norm[2]{\v{x}}}{\norm[2]{A\v{x}}}.
+                        \intertext{Note that}
+                        A\v{x} &=
+                        \begin{pmatrix}
+                            A_1 \v{x} \\
+                            A_2 \v{x}
+                        \end{pmatrix} \\
+                        \intertext{Therefore $\norm[2]{A\v{x}} \ge \norm[2]{A_1 \v{x}}$, so}
+                        \norm[2]{A^{+}} &\le \sup_{\v{x}} \frac{\norm[2]{\v{x}}}{\norm[2]{A_1\v{x}}}.
+                        \intertext{If we let $\v{y} = A_1\v{x}$, then $\v{x} = A_1^{-1}\v{y}$ and}
+                        \norm[2]{A^{+}} &\le \sup_{\v{y}} \frac{\norm[2]{A_1^{-1}\v{y}}}{\norm[2]{\v{y}}} \\
+                        &= \norm[2]{A_1^{-1}}
+                    \end{align*}
+                    Thus $\norm[2]{A^+} \le \norm[2]{A_1^{-1}}$.
                 \end{proof}
         \end{enumerate}
 
@@ -296,12 +370,119 @@ Final Exam
 
     \item % #7
         Problem 33.2 (Page 255) 
+        Suppose algorithm 33.1 is executed for a particular $A$ and $\v{b}$
+        until at some step $n$, an entry $h_{n+1, n} = 0$ is encountered.
+        \begin{enumerate}
+            \item[(a)]
+                Show how (33.13) can be simplified in this case.
+                What does this imply about the structure of a full $m \times m$
+                Hessenberg reduction $A = QHQ^*$ of $A$?
+
+            \item[(b)]
+                Show that $K_n$ is an invariant subspace of $A$, i.e., $AK_n \subseteq K_n$.
+
+            \item[(c)]
+                Show that if the Krylov subspaces of $A$ generated by $\v{b}$
+                are defined by $K_k = \langle \v{b}, A\v{b}, \ldots, A^{k-1}\v{b} \rangle$,
+                then $K_n = K_{n+1} = K_{n+2}$.
+
+            \item[(d)]
+                Show that each eigenvalue of $H_n$ is an eigenvalue of $A$.
+
+            \item[(e)]
+                Show that if $A$ is nonsingular, then the solution $\v{x}$ to the system
+                of equations $A\v{x} = \v{b}$ lies in $K_n$.
+        \end{enumerate}
 
     \item % #8
         Problem 36.1 (Page 283)
 
-    \item % #9
-        
+    \item % #9 Done
+        Let $f:\RR \to \RR$ be twice continuously differentiable for all $x$ in
+        the neighborhood $\set{x \in \RR | \abs{x - \xi} < r}$ of a simple zero
+        $\xi$ of $f$ such that $f(\xi) = 0$.
+        Consider the two-step Newton method:
+        \[
+            y_k = x_k - f(x_k)/f'(x_k), \quad x_{k+1} = y_k - f(y_k)/f'(x_k).
+        \]
+        \begin{enumerate}
+            \item[(a)] % Done
+                Show that if the method converges, then
+                \[
+                    \lim{k \to \infty}{\frac{x_{k+1} - \xi}{(y_k - \xi)(x_k - \xi)}} = \frac{f''(\xi)}{f'(\xi)}
+                \]
+
+                \begin{proof}
+                    First we assume that the method converges, this implies that
+                    \begin{align*}
+                        \lim{k \to \infty}{x_k - \xi} &= 0
+                        \intertext{and}
+                        \lim{k \to \infty}{y_k - \xi} &= 0
+                    \end{align*}
+                    Also the problem will use the Taylor expansion of $f(y_k)$ and
+                    $f'(x_k)$ about $\xi$, so these will be stated here for later use.
+                    \begin{align*}
+                        f(y_k) &= f(\xi) + (y_k - \xi) f'(\xi) + O((y_k - \xi)^2) \\
+                               &= (y_k - \xi) \p{f'(\xi) + O(y_k - \xi)} \\
+                        f'(x_k) &= f'(\xi) + (x_k - \xi)f''(\xi) + O((x_k - \xi)^2)
+                    \end{align*}
+                    Now I will consider the limit
+                    \begin{align*}
+                        &\lim{k \to \infty}{\frac{1}{(y_k - \xi)(x_k - \xi)} \p{x_{k+1} - \xi}} \\
+                        &= \lim{k \to \infty}{\frac{1}{(y_k - \xi)(x_k - \xi)} \p{y_k - \xi - \frac{f(y_k)}{f'(x_k)}}} \\
+                        &= \lim{k \to \infty}{\frac{1}{(y_k - \xi)(x_k - \xi)} \p{y_k - \xi - \frac{(y_k - \xi) \p{f'(\xi) + O(y_k - \xi)}}{f'(x_k)}}} \\
+                        &= \lim{k \to \infty}{\frac{1}{(x_k - \xi)} \p{1 - \frac{f'(\xi) + O(y_k - \xi)}{f'(x_k)}}} \\
+                        &= \lim{k \to \infty}{\frac{1}{(x_k - \xi)} \p{1 - \frac{f'(\xi) + O(y_k - \xi)}{f'(\xi) + (x_k - \xi)f''(\xi) + O((x_k - \xi)^2)}}} \\
+                        %&= \lim{k \to \infty}{\frac{1}{(x_k - \xi)} \p{\frac{f'(\xi) + (x_k - \xi)f''(\xi) + O((x_k - \xi)^2)}{f'(\xi) + (x_k - \xi)f''(\xi) + O((x_k - \xi)^2)} - \frac{\p{f'(\xi) + O(y_k - \xi)}}{f'(\xi) + (x_k - \xi)f''(\xi) + O((x_k - \xi)^2)}}} \\
+                        &= \lim{k \to \infty}{\frac{1}{(x_k - \xi)} \p{\frac{f'(\xi) + (x_k - \xi)f''(\xi) + O((x_k - \xi)^2) - f'(\xi) - O(y_k - \xi)}{f'(\xi) + (x_k - \xi)f''(\xi) + O((x_k - \xi)^2)}}} \\
+                        &= \lim{k \to \infty}{\frac{1}{(x_k - \xi)} \p{\frac{(x_k - \xi)f''(\xi) + O((x_k - \xi)^2) - O(y_k - \xi)}{f'(\xi) + (x_k - \xi)f''(\xi) + O((x_k - \xi)^2)}}} \\
+                        &= \lim{k \to \infty}{\frac{f''(\xi) + O((x_k - \xi)) - O((y_k - \xi)/(x_k - \xi))}{f'(\xi) + (x_k - \xi)f''(\xi) + O((x_k - \xi)^2)}}
+                        \intertext{Taking the limit results in}
+                        &= \frac{f''(\xi)}{f'(\xi)}
+                    \end{align*}
+                \end{proof}
+
+            \item[(b)] % Done
+                The convergence is cubic:
+                \[
+                    \lim{k \to \infty}{\frac{x_{k+1} - \xi}{(x_k - \xi)^3}} = \frac{1}{2}\p{\frac{f''(\xi)}{f'(\xi)}}^2
+                \]
+
+                \begin{proof}
+                    In this proof I will use the Taylor expansions of $f(x_k)$
+                    and $f'(x_k)$ around $\xi$, so I will state them here
+                    \begin{align*}
+                        f(x_k) &= f(\xi) + (x_k - \xi) f'(\xi) + O((x_k - \xi)^2) \\
+                               &= (x_k - \xi) \p{f'(\xi) + O(x_k - \xi)} \\
+                        f'(x_k) &= f'(\xi) + (x_k - \xi)f''(\xi) + O((x_k - \xi)^2)
+                    \end{align*}
+                    Now consider the limit
+                    \begin{align*}
+                        \lim{k \to \infty}{\frac{x_{k+1} - \xi}{(x_k - \xi)^3}}
+                        &= \lim{k \to \infty}{\frac{x_{k+1} - \xi}{(y_k - \xi)(x_k - \xi)} \frac{y_k - \xi}{(x_k - \xi)^2}}
+                        \intertext{From part (a)}
+                        &= \frac{f''(\xi)}{f'(\xi)} \lim{k \to \infty}{\frac{y_k - \xi}{(x_k - \xi)^2}}
+                    \end{align*}
+                    Now consider this limit individually
+                    \begin{align*}
+                        &\lim{k \to \infty}{\frac{y_k - \xi}{(x_k - \xi)^2}} \\
+                        &= \lim{k \to \infty}{\frac{1}{(x_k - \xi)^2}\p{x_k - \xi - \frac{f(x_k)}{f'(x_k)}}} \\
+                        &= \lim{k \to \infty}{\frac{1}{(x_k - \xi)^2}\p{x_k - \xi - \frac{(x_k - \xi) \p{f'(\xi) + \frac{1}{2}(x_k - \xi) f''(\xi) + O\p{(x_k - \xi)^2}}}{f'(x_k)}}} \\
+                        &= \lim{k \to \infty}{\frac{1}{x_k - \xi}\p{1 - \frac{f'(\xi) + \frac{1}{2}(x_k - \xi) f''(\xi) + O\p{(x_k - \xi)^2}}{f'(x_k)}}} \\
+                        &= \lim{k \to \infty}{\frac{1}{x_k - \xi}\p{1 - \frac{f'(\xi) + \frac{1}{2}(x_k - \xi) f''(\xi) + O\p{(x_k - \xi)^2}}{f'(\xi) + (x_k - \xi)f''(\xi) + O((x_k - \xi)^2)}}}
+                        \intertext{By finding a common denominator and adding the fractions}
+                        &= \lim{k \to \infty}{\frac{1}{x_k - \xi}\p{\frac{\frac{1}{2}(x_k - \xi) f''(\xi) + O\p{(x_k - \xi)^2}}{f'(\xi) + (x_k - \xi)f''(\xi) + O((x_k - \xi)^2)}}} \\
+                        &= \lim{k \to \infty}{\frac{\frac{1}{2}f''(\xi) + O\p{x_k - \xi}}{f'(\xi) + (x_k - \xi)f''(\xi) + O((x_k - \xi)^2)}} \\
+                        \intertext{Taking the limit}
+                        &= \frac{1}{2} \frac{f''(\xi)}{f'(\xi)}
+                    \end{align*}
+                    Now going back to the original limit
+                    \begin{align*}
+                        \lim{k \to \infty}{\frac{x_{k+1} - \xi}{(x_k - \xi)^3}} &= \frac{f''(\xi)}{f'(\xi)} \lim{k \to \infty}{\frac{y_k - \xi}{(x_k - \xi)^2}} \\
+                        \lim{k \to \infty}{\frac{x_{k+1} - \xi}{(x_k - \xi)^3}} &= \frac{1}{2} \p{\frac{f''(\xi)}{f'(\xi)}}^2 \\
+                    \end{align*}
+                \end{proof}
+        \end{enumerate}
 
     \item % #10 Done
         MATLAB project
