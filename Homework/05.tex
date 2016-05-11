@@ -93,7 +93,7 @@ Final Exam
             strictly row diagonally dominant.
         \end{proof}
 
-    \item % #2
+    \item % #2 Done
         Let $A \in \RR^{m \times m}$ be symmetric positive definite (SPD),
         $\v{b} \in \RR^m$ and define $\phi:\RR^m \to \RR$ by
         \[
@@ -147,10 +147,28 @@ Final Exam
             \end{align*}
             This $\hat{\v{x}}$ minimizes $\phi(\v{x})$ over $K$.
 
-            Now assume that $\hat{\v{x}}$ minimizes $\phi(\v{x})$ over $K$.
+            Now assume that $\hat{\v{x}}$ minimizes $\phi(\v{x})$ over $K$, that
+            is for any $\v{x} \in K$, $\phi(\hat{\v{x}}) \le \phi(\v{x})$.
+
+            Let $\v{y} \in K$, then let $F(t) = \phi(\hat{\v{x}} + t \v{y})$.
+            Note that $F(0) = \phi(\hat{\v{x}})$.
+            Since $\hat{\v{x}}$ minimizes $\phi$ over $K$, $F(0) \le F(t)$ for
+            any $t$.
+            Thus $0$ is a minimizer of $F$ and $F'(0) = 0$.
+            Using vector calculus
+            \[
+                F'(t) = \v{y}^T \nabla \phi(\hat{\v{x}} + t\v{y})
+            \]
+            Now using $t = 0$ we see that
+            \begin{align*}
+                F'(0) &= 0 \\
+                \v{y}^T \nabla \phi(\hat{\v{x}}) &= 0
+            \end{align*}
+            Thus $\nabla \phi(\hat{\v{x}}) \perp K$, because $\v{y}^T \nabla \phi(\hat{\v{x}}) = 0$
+            for any vector $\v{y} \in K$.
         \end{proof}
 
-    \item % #3
+    \item % #3 Done
         Show that:
         \begin{enumerate}
             \item[(a)] % Done
@@ -196,13 +214,39 @@ Final Exam
                 \end{proof}
 
             \item[(b)]
+                Show that
+                \[
+                    \norm[F]{fl(XA) - XA} \le n \epsilon_{machine} \norm[F]{X} \norm[F]{A} + O(\epsilon^2_{machine})
+                \]
 
-            \item[(c)]  
+                \begin{proof}
+                    Each of the entries of $fl(XA)$ will be of the form $fl(\v{x}^T \v{a})$.
+                    Therefore 
+                    \[
+                        \norm[F]{fl(XA) - XA} = \sqrt{\sum{i = 1}{n^2}{\p{fl(\v{x}^T \v{a}) - \v{x}^T\v{a}}^2}}
+                    \]
+                    From part (a)
+                    \begin{align*}
+                        \norm[F]{fl(XA) - XA} &\le \sqrt{\sum{i = 1}{n^2}{n^2 \epsilon^2_{machine} \p{\abs{\v{x}}^T \abs{\v{a}}}^2 + O(\epsilon_{machine}^4)}} \\
+                        &\le n \epsilon_{machine} \sqrt{\sum{i = 1}{n^2}{x^2}} \sqrt{\sum{i = 1}{n^2}{a^2}} + O(\epsilon_{machine}^2) \\
+                        &\le n \epsilon_{machine} \norm[F]{X} \norm[F]{A} + O(\epsilon_{machine}^2) \\
+                    \end{align*}
+                \end{proof}
 
+            \item[(c)]
+                Show that the relative backward error
+                $\frac{\norm[F]{\delta A}}{\norm[F]{A}} \le n \kappa(A)O(\epsilon_{machine})$
+
+                \begin{align*}
+                    \frac{\norm[F]{\delta A}}{\norm[F]{A}} = \frac{\norm[F]{fl(XA) - XA}}{\norm[F]{A}} \\
+                    = \frac{\norm[F]{X(A + \delta A) - XA}}{\norm[F]{A}} \\
+                    &\le n \epsilon_{machine} \norm[F]{X} \norm[F]{A} \frac{1}{\norm[F]{A}} \\
+                    &\le n \epsilon_{machine} \norm[F]{X} \\
+                    &\le n \epsilon_{machine} \kappa(X) \\
+                \end{align*}
         \end{enumerate}
 
-
-    \item % #4
+    \item % #4 Done
         Let $A \in \RR^{n \times n}$ be a symmetric positive definite matrix.
         Let Gaussian elimination be carried out on $A$ without pivoting.
         After $k$ steps, $A$ will be reduced to the form
@@ -220,15 +264,114 @@ Final Exam
                 $A_{22}^{(k)}$ is symmetric positive definite.
 
                 \begin{proof}
-                    
+                    First I will prove by induction that $A_{22}^{(k)}$ is symmetric.
+                    Consider the base case when $k = 0$, in this case
+                    $A_{22}^{(0)} = A^{(0)} = A$, and since $A$ is symmetric $A_{22}^{(0)}$
+                    is symmetric.
+                    Now assume that $A_{22}^{(k)}$ is symmetric for
+                    $k = 1, 2, \ldots, m-1$ with $m < n$.
+                    Consider $A_{22}^{(m)}$.
+                    We have from the Gaussian Elimination algorithm that
+                    \begin{align*}
+                        L^{(m)}A^{(m-1)} &= A^{(m)} \\
+                        \begin{bmatrix}
+                            1 &        &            &        &        &   \\
+                              & \ddots &            &        &        &   \\
+                              &        & 1          &        &        &   \\
+                              &        & l_{m+1, m} & \ddots &        &   \\
+                              &        & \vdots     &        & \ddots &   \\
+                              &        & l_{n,m}    &        &        & 1
+                        \end{bmatrix}
+                        \begin{bmatrix}
+                            A_{11}^{(m-1)} & A_{12}^{(m-1)} \\
+                            0              & A_{22}^{(m-1)}
+                        \end{bmatrix}
+                        &=
+                        \begin{bmatrix}
+                            A_{11}^{(m)} & A_{12}^{(m)} \\
+                            0            & A_{22}^{(m)}
+                        \end{bmatrix}
+                        \intertext{Looking at just the portion changing over this step.
+                            I will relabel the matrices as follows.}
+                        L &= 
+                        \begin{bmatrix}
+                               1           &        &        &   \\
+                               l_{2, 1}    & \ddots &        &   \\
+                               \vdots      &        & \ddots &   \\
+                               l_{n-m-1,1} &        &        & 1
+                        \end{bmatrix} \\
+                        B &= A_{22}^{(m-1)} = \br{b_{ij}} \\
+                        C &= A_{22}^{(m)} = \br{c_{ij}}
+                        \intertext{Then the following matrix equation holds}
+                        LB &= 
+                        \begin{bmatrix}
+                            b_{11} & \v{b}_{1,2:n-m-1}^T \\
+                            \v{0}  & C
+                        \end{bmatrix}
+                    \end{align*}
+                    Note that according to the Gaussian elimination algorithm
+                    $l_{i1} = -b_{i1}/b_{11}$.
+                    In order to show that $C$ which is $A_{22}^{(m)}$ is symmetric
+                    we must show that $c_{ij} = c_{ji}$ for all $i$ and $j$.
+                    We know that $c_{ij}$ is the $(i+1)$ row of $L$ dotted into
+                    the $j+1$ column of $B$.
+                    \begin{align*}
+                        c_{ij} &= -l_{i+1,1} b_{1,j+1} + l_{i+1,i+1} b_{i+1,j+1} \\
+                               &= -\frac{b_{i+1,1}}{b_{11}} b_{1,j+1} + 1 b_{i+1,j+1}
+                        \intertext{From our inductive hypothesis $B$ is symmetric so $b_{i,j} = b_{j,i}$}
+                               &= -\frac{b_{1,i+1}}{b_{11}} b_{j+1,1} + 1 b_{j+1,i+1} \\
+                               &= -\frac{b_{j+1,1}}{b_{11}} b_{1,i+1} + l_{j+1,j+1} b_{j+1,i+1} \\
+                               &= c_{ji}
+                    \end{align*}
+                    Therefore $c_{ij} = c_{ji}$ for all $i$ and $j$ and
+                    $C = A_{22}^{(m)}$ is symmetric.
+                    Thus by mathematical induction $A_{22}^{(k)}$ is symmetric
+                    for all $k$.
+
+                    Next I will prove that $A_{22}^{(k)}$ is positive definite.
+                    Assume to the contradiction that $A_{22}^{(k)}$ is not
+                    positive definite.
+                    This implies that there exists a vector $\v{x}$ such that
+                    $\v{x}^T A_{22}^{(k)} \v{x} \le 0$.
+                    Construct $\v{y}$ such that $\v{y} \in \RR^m$ and the last
+                    entries are $\v{x}$ and the first entries are $0$.
+                    In this case because Gaussian elimination doesn't affect the
+                    determinant
+                    \begin{align*}
+                        \v{y}^T A \v{y} &= \v{y}^T
+                        \begin{bmatrix}
+                            A_{11}^{(k)} & A_{12}^{(k)} \\
+                            0            & A_{22}^{(k)}
+                        \end{bmatrix}
+                        \v{y} \\
+                        &= \v{x}^T A_{22}^{(k)} \v{x} \\
+                        &\le 0
+                    \end{align*}
+                    This contradicts the fact that $A$ is positive definite, therefore
+                    $A_{22}^{(k)}$ must be positive definite for all $k$.
                 \end{proof}
 
-            \item[(b)]
+            \item[(b)] % Done
                 $a_{ii}^{(k)} \le a_{ii}^{(k-1)}$ for all $k \le i \le n$,
                 $k = 1, \cdots, n - 1$.
 
                 \begin{proof}
-                    
+                    In order to show this we must first find a formula for
+                    $a_{ii}^{(k)}$.
+                    By the Gaussian elimination algorithm without pivoting
+                    \[
+                        a_{ii}^{(k)} = a_{ii}^{(k-1)} - \frac{a_{i1}^{(k-1)}}{a_{11}^{(k-1)}} a_{1i}^{(k-1)}
+                    \]
+                    For a symmetric positive definite matrix
+                    $a_{i1}^{(k-1)} = a_{1i}^{(k-1)}$, so this can be rewritten as
+                    \[
+                        a_{ii}^{(k)} = a_{ii}^{(k-1)} - \frac{\p{a_{i1}^{(k-1)}}^2}{a_{11}^{(k-1)}}
+                    \]
+                    It is known that $a_{11}^{(k-1)}$ is an eigenvalue of $A$ and since $A$ is positive definite
+                    $a_{11}^{(k-1)} > 0$.
+                    Also $\p{a_{i1}^{(k-1)}}^2 > 0$, therefore $\frac{\p{a_{i1}^{(k-1)}}^2}{a_{11}^{(k-1)}} > 0$.
+                    This implies that $a_{ii}^{(k)} \le a_{ii}^{(k-1)}$, as subtracting a positive number makes
+                    a number lower.
                 \end{proof}
         \end{enumerate}
 
@@ -368,7 +511,7 @@ Final Exam
             Thus $\v{x} \in \langle\v{v}_{r+1}, \ldots, \v{v}_m\rangle$.
         \end{proof}
 
-    \item % #7
+    \item % #7 Done
         Problem 33.2 (Page 255) 
         Suppose algorithm 33.1 is executed for a particular $A$ and $\v{b}$
         until at some step $n$, an entry $h_{n+1, n} = 0$ is encountered.
@@ -378,24 +521,115 @@ Final Exam
                 What does this imply about the structure of a full $m \times m$
                 Hessenberg reduction $A = QHQ^*$ of $A$?
 
-            \item[(b)]
+                This implies that $H$ is
+                \[
+                    H =
+                    \begin{bmatrix}
+                        H_n & X
+                    \end{bmatrix}
+                \]
+                where $X$ can be anything and $Q$ is $Q_n$ extended to an
+                orthonormal basis.
+
+            \item[(b)] % Done
                 Show that $K_n$ is an invariant subspace of $A$, i.e., $AK_n \subseteq K_n$.
 
-            \item[(c)]
+                \begin{proof}
+                    Let $\v{x} \in AK_n$, then $\v{x} = A\v{y}$ where $\v{y} \in K_n$.
+                    If $\v{y} \in K_n$, then $\v{y} = \sum{i = 1}{n}{y_i \v{q}_i}$.
+                    This implies that
+                    \[
+                        \v{x} = \sum{i = 1}{n}{y_i A\v{q}_i}
+                    \]
+                    For $1 \le i \le n-1$, $A\v{q}_i \in K_n$.
+                    Consider $A\v{q}_n$, equation 33.4 states
+                    \begin{align*}
+                        A\v{q}_n &= h_{1n} \v{q}_1 + \cdots + h_{nn} \v{q}_n + h_{n+1,n} \v{q}_{n+1}
+                        \intertext{Since $h_{n+1,n} = 0$}
+                        A\v{q}_n &= h_{1n} \v{q}_1 + \cdots + h_{nn} \v{q}_n
+                    \end{align*}
+                    Thus $A\v{q}_n \in K_n$ as well.
+                    This implies that $x = A\v{y} \in K_n$.
+                    Thus $AK_n \subseteq K_n$.
+                \end{proof}
+
+            \item[(c)] % Done
                 Show that if the Krylov subspaces of $A$ generated by $\v{b}$
                 are defined by $K_k = \langle \v{b}, A\v{b}, \ldots, A^{k-1}\v{b} \rangle$,
                 then $K_n = K_{n+1} = K_{n+2}$.
 
-            \item[(d)]
+                \begin{proof}
+                    In part (b) we showed that $AK_n \subseteq K_n$.
+                    Obviously $K_{n+1} = AK_n$, so $K_{n+1} \subseteq K_n$.
+                    Clearly from the definition $K_n \subseteq K_{n+1}$ as
+                    any vector in $\langle \v{b}, A\v{b}, \ldots, A^{n-1}\v{b} \rangle$ will
+                    also be in $\langle \v{b}, A\v{b}, \ldots, A^{n}\v{b} \rangle$.
+                    Thus $K_n = K_{n+1}$.
+                    This can also be applied for any $m > n$, $K_m = A^{m-n}K_n$, and
+                    therefore $K_m \subseteq K_n$.
+                    So clearly $K_n = K_m$ for any $m > n$.
+                \end{proof}
+
+            \item[(d)] % Done
                 Show that each eigenvalue of $H_n$ is an eigenvalue of $A$.
 
-            \item[(e)]
+                Let $\lambda$ be an eigenvalue of $H_n$, then there exists
+                a nonzero eigenvector $\v{x}$ such that $H_n \v{x} = \lambda \v{x}$.
+                From equation 33.12 we know that $H_n = Q^*_n A Q_n$.
+                This implies that
+                \begin{align*}
+                    Q^*_n A Q_n \v{x} &= \lambda \v{x} \\
+                    A Q_n \v{x} &= \lambda Q_n \v{x}
+                    \intertext{Let $\v{y} = Q_n \v{x}$}
+                    A \v{y} &= \lambda \v{y}
+                \end{align*}
+                Thus $\lambda$ is also an eigenvalue of $A$.
+
+            \item[(e)] % Done
                 Show that if $A$ is nonsingular, then the solution $\v{x}$ to the system
                 of equations $A\v{x} = \v{b}$ lies in $K_n$.
+
+                Since the eigenvalues of $A$ are the same as the eigenvalues
+                of $H_n$, if $A$ is nonsingular than $H_n$ is also nonsingular.
+                Furthermore
+                \begin{align*}
+                    A^{-1} &= \p{Q_n H_n Q_n^*}^{-1} \\
+                    A^{-1} &= Q_n H_n^{-1} Q_n^*\\
+                \end{align*}
+                Therefore
+                \begin{align*}
+                    \v{x} &= A^{-1}\v{b} \\
+                          &= Q_n H_n^{-1} Q_n^* \v{b} \\
+                          &= Q_n \p{H_n^{-1} Q_n^* \v{b}} \\
+                \end{align*}
+                This shows that $\v{x}$ is a linear combination of the
+                columns of $Q_n$ which form a basis of $K_n$.
+                Therefore $\v{x} \in K_n$.
         \end{enumerate}
 
-    \item % #8
+    \item % #8 Done
         Problem 36.1 (Page 283)
+        In Lecture 27 it was pointed out that the eigenvalues of a symmetric
+        matrix $A \in \RR^{m \times m}$ are the stationary values of the
+        Rayleigh quotient $r(\v{x}) = (\v{x}^TA\v{x})/(\v{x}^T \v{x})$ for
+        $\v{x} \in \RR^m$.
+        Show that the Ritz values at step $n$ of the Lanczos iteration are the
+        stationary values of $r(\v{x})$ if $\v{x}$ is resticted to $K_n$.
+
+        \begin{proof}
+            The Ritz values are the eigenvalues of $T_n$ the tridiagonal matrix.
+            In this case $A = Q_n^* T_n Q_n$.
+            So if $\v{y} = Q_n \v{x}$ is an eigenvector of $T_n$, with a corresponding Ritz
+            value, then
+            \begin{align*}
+                r(\v{x}) &= \frac{\v{x}^T A \v{x}}{\v{x}^T \v{x}} \\
+                &= \frac{\v{x}^T Q_n^* T_n Q_n \v{x}}{\v{x}^T \v{x}} \\
+                &= \frac{\v{x}^T Q_n^* T_n Q_n \v{x}}{\v{x}^T Q_n^* Q_n \v{x}} \\
+                &= \frac{\v{y}^T T_n \v{y}^T}{\v{y}^T \v{y}} \\
+            \end{align*}
+            This is the Ritz value associated with $\v{y}$ at the nth step,
+            so the Ritz values are stationary for the Rayleigh quotient.
+        \end{proof}
 
     \item % #9 Done
         Let $f:\RR \to \RR$ be twice continuously differentiable for all $x$ in
