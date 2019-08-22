@@ -14,4 +14,4 @@ function [W, R] = HouseholderQR(A)
         W(k:m, k) = vk;
     end
     R = A;
-
+end
